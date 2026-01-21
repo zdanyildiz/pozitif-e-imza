@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <title>javaws: 1.8.8</title>    <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8" />
+  </head>
+  <body>
+    <H5  align="right">javaws: 1.8.8, 10/28/21 11:44 AM</H5>
+<center><img src="itw_logo.png" alt="IcedTea-Web Logo" width="413" height="240"/></center><BR/>
+
+<H4>Context</H4><li><a href="#AUTHOR">AUTHOR</a></li><li><a href="#BUGS">BUGS</a></li><li><a href="#DESCRIPTION">DESCRIPTION</a></li><li><a href="#EXAMPLES">EXAMPLES</a></li><li><a href="#FILES">FILES</a></li><li><a href="#NAME">NAME</a></li><li><a href="#OPTIONS">OPTIONS</a></li><li><a href="#SEE_ALSO">SEE ALSO</a></li><li><a href="#SYNOPSIS">SYNOPSIS</a></li>
+ <a name="NAME"/><H3>NAME</H3>
+<p><blockquote>javaws - a Java Web Start client</blockquote></p>
+ <a name="SYNOPSIS"/><H3>SYNOPSIS</H3>
+<p><blockquote><B> javaws </B>[-run-options] jnlp file<BR/>
+<B>javaws </B>[-control-options]</blockquote></p>
+ <a name="DESCRIPTION"/><H3>DESCRIPTION</H3>
+<p><blockquote><B>javaws </B>is an implementation of a JNLP client. It uses a JNLP (Java Network Launch Protocol) file to securely run a remote Java application or a Java applet. This implementation of <B>javaws </B>is from the IcedTea project and is based on the NetX project.<BR/>
+<BR/>
+A JNLP file is an xml file that describes how to securely run a remote Java application or a Java applet.</blockquote></p>
+
+ <a name="OPTIONS"/><H3>OPTIONS</H3>
+<p><blockquote>When specifying options, the name of the jnlp file can be after the command, the -jnlp option, an option with no arguments, or after an argument with an option that takes one argument. A html file that launches a jnlp can be specified after the -html option.<BR/>
+The jnlp-file can either be a url or a local path.<BR/>
+The JNLP file should only be specified once, whether as a main argument, after -jnlp or through an html file.</blockquote></p><p><blockquote><B>Control options:</B><BR/>
+<li><b>-about  </b> - Shows a sample application.(No argument expected)</li><li><b>-help  </b> - Prints out information about supported command and basic usage.(No argument expected)</li><li><b>-license  </b> - Display the GPL license and exit.(No argument expected)</li><li><b>-viewer  </b> - Shows the trusted certificate viewer.(No argument expected)</li><li><b>-Xcacheids  </b> - List available IDs in cache, which you can use to delete individual applications.(Expected none or one argument)</li><li><b>-Xclearcache  </b> - Clean the JNLP application cache. If you pass argument, only specified application is deleted.(Expected none or one argument)</li></blockquote></p><p><blockquote><B>Run options:</B><BR/>
+<li><b>-allowredirect  </b> - Follows HTTP redirects.(No argument expected)</li><li><b>-arg arg </b> - Adds an application argument before launching.(Expected one or more arguments)</li><li><b>-browser  </b> - Launch embeded browser. Use in great need only!(Expected one or more arguments)</li><li><b>-headless  </b> - Disables download window, other UIs.(No argument expected)</li><li><b>-html  </b> - Location of HTML file to launch (url or file). You can use parameter ALL  or numbers (like 1 2 5) to select applets on page. However experimental, this switch should keep you still in safety.(Expected one or more arguments)</li><li><b>-jnlp  </b> - Location of JNLP file to launch (url or file).(Exactly one argument expected)</li><li><b>-nosecurity  </b> - Disables the secure runtime environment. You need also  deployment.security.itw.ignorecertissues to workaround corrupted signatures(No argument expected)</li><li><b>-noupdate  </b> - Disables checking for updates.(No argument expected)</li><li><b>-param name=value </b> - Adds an applet parameter before launching.(Expected one or more arguments)</li><li><b>-property name=value </b> - Sets a system property before launching.(Expected one or more arguments)</li><li><b>-startuptracker  </b> - Enable startup time tracker(No argument expected)</li><li><b>-strict  </b> - Enables strict checking of JNLP file format.(No argument expected)</li><li><b>-update seconds </b> - Check for updates.(Exactly one argument expected)</li><li><b>-verbose  </b> - Enable verbose output.(No argument expected)</li><li><b>-version  </b> - Print the IcedTea-Web version and exit.(No argument expected)</li><li><b>-Xignoreheaders  </b> - Skip jar header verification.(No argument expected)</li><li><b>-xml  </b> - Uses a strict XML parser to parse the JNLP file.(No argument expected)</li><li><b>-Xnofork  </b> - Do not create another JVM.(No argument expected)</li><li><b>-Xoffline  </b> - Prevent ITW network connection. Only cache will be used. Application can still connect.(No argument expected)</li><li><b>-Xtrustnone  </b> - Instead of asking user, will foretold all answers as no.(No argument expected)</li></blockquote></p>
+ <a name="EXAMPLES"/><H3>EXAMPLES</H3>
+<p><blockquote><li><b>javaws -about </b> - Shows basic help and about informations.</li><li><b>javaws -about -headless </b> - Shows basic help and about informations in terminal only.</li><li><b>javaws  -Xnofork -Xignoreheaders -allowredirect -Xoffline http://mypage.web/dangerous.jnlp </b> - Will start dangerous.jnlp application, originally from mypage.web, without downloading it, without headers check and in forced single VM.</li></blockquote></p>
+ <a name="FILES"/><H3>FILES</H3>
+<p><blockquote><li><b>%JAVA_HOME\lib\deployment.config </b> - java-global deployment properties file. May be affected by deployment.jre.dir.</li><li><b>%JAVA_HOME\lib\security\cacerts </b> - Contains  various system java-wide stored certificates. Controlled by <B>deployment.system.security.cacerts</B></li><li><b>%JAVA_HOME\lib\security\jssecacerts </b> - Contains  various system java-wide stored certificates. Controlled by <B>deployment.system.security.jssecacerts</B></li><li><b>%JAVA_HOME\lib\security\trusted.certs </b> - Contains  various system java-wide stored certificates. Controlled by <B>deployment.system.security.trusted.certs</B></li><li><b>%JAVA_HOME\lib\security\trusted.clientcerts </b> - Contains  various system java-wide stored certificates. Controlled by <B>deployment.system.security.trusted.clientautcerts</B></li><li><b>%JAVA_HOME\lib\security\trusted.jssecerts </b> - Contains  various system java-wide stored certificates. Controlled by <B>deployment.system.security.trusted.jssecerts</B></li><li><b>%TMP\%USER\netx\locks </b> - Location of netx locks. Controlled by <B>deployment.user.locksdir</B></li><li><b>%TMP\%USER\netx\locks\netx_running </b> - Location of netx main lock. Controlled by <B>deployment.user.runningfile</B></li><li><b>%XDG_CACHE_HOME\icedtea-web\cache </b> - Contains cached runtime entries. Controlled by <B>deployment.user.cachedir</B></li><li><b>%XDG_CACHE_HOME\icedtea-web\cache\recently_used </b> - Additional information about items in cache</li><li><b>%XDG_CACHE_HOME\icedtea-web\pcache </b> - Contains saved application data. Controlled by <B>deployment.user.pcachedir</B></li><li><b>%XDG_CACHE_HOME\icedtea-web\tmp </b> - Contains temporary runtime files. Controlled by <B>deployment.user.tmp</B></li><li><b>%XDG_CONFIG_HOME\icedtea-web\.appletTrustSettings </b> - File responsible for various actions on applets and apps based on their codebase based on users actions.</li><li><b>%XDG_CONFIG_HOME\icedtea-web\deployment.properties </b> - Users main deployment properties file.</li><li><b>%XDG_CONFIG_HOME\icedtea-web\icons </b> - Location where icons of javaws applications desktop/menu launchers icons are stored</li><li><b>%XDG_CONFIG_HOME\icedtea-web\log </b> - contains file-log files (if enabled), itw-cplugin-date_time.log for native part of plugin, itw-javantx-date_time.log for everything else. Controlled by <B>deployment.user.logdir</B></li><li><b>%XDG_CONFIG_HOME\icedtea-web\security\java.policy </b> - Contains granted permissions for selected unsigned apps. Controlled by <B>deployment.user.security.policy</B></li><li><b>%XDG_CONFIG_HOME\icedtea-web\security\trusted.cacerts </b> - Contains  various users stored certificates. Controlled by <B>deployment.user.security.trusted.cacerts</B></li><li><b>%XDG_CONFIG_HOME\icedtea-web\security\trusted.certs </b> - Contains  various users stored certificates. Controlled by <B>deployment.user.security.trusted.certs</B></li><li><b>%XDG_CONFIG_HOME\icedtea-web\security\trusted.clientcerts </b> - Contains  various users stored certificates. Controlled by <B>deployment.user.security.trusted.clientauthcerts</B></li><li><b>%XDG_CONFIG_HOME\icedtea-web\security\trusted.jssecacerts </b> - Contains  various users stored certificates. Controlled by <B>deployment.user.security.trusted.jssecacerts</B></li><li><b>%XDG_CONFIG_HOME\icedtea-web\security\trusted.jssecerts </b> - Contains  various users stored certificates. Controlled by <B>deployment.user.security.trusted.jssecerts</B></li><li><b>%XDG_DATA_HOME\applications\javaws </b> - Subdirectory in users menus space, for placing custom menu shortcuts.</li><li><b>{%WINDIR\Sun\Java or \etc\.java}\deployment\.appletTrustSettings </b> - File responsible for various actions on applets and apps based on their codebase based on admins actions.</li><li><b>{%WINDIR\Sun\Java or \etc\.java}\deployment\deployment.config </b> - Global deployment config file.</li></blockquote></p><p><blockquote>Where $XDG_CONFIG_DIR, $XDG_CACHE_DIR and $XDG_RUNTIME_DIR are  set  as ~/.config, ~/.cache and /tmp or /var/tmp if not set.</blockquote></p>
+ <a name="BUGS"/><H3>BUGS</H3>
+<p><blockquote>There aren't any known bugs. If you come across one, please file it at:<BR/>
+<a href="http://icedtea.classpath.org/wiki/IcedTea-Web#Filing_bugs">http://icedtea.classpath.org/wiki/IcedTea-Web#Filing_bugs</a><BR/>
+<a href="http://icedtea.classpath.org/bugzilla">http://icedtea.classpath.org/bugzilla</a><BR/>
+<BR/>
+Please run in debug (-verbose switch or itw-settings setting or ICEDTEAPLUGIN_DEBUG variable set to true) mode and include that output (best is from java console) with URL to jnlp or html file (or the jnlp/html file or  application itself) when filing out the bug report.<BR/>
+</blockquote></p>
+ <a name="AUTHOR"/><H3>AUTHOR</H3>
+<p><blockquote>The following people have made contibutions to this project.<BR/>
+Please keep this list in alphabetical order.<BR/>
+<BR/>
+<a href="mailto:l a n g e l @ r e d h a t . c o m" target="_top">Lillian Angel</a><BR/>
+<a href="mailto:a a z o r e s @ r e d h a t . c o m" target="_top">Andrew Azores</a><BR/>
+<a href="mailto:d b h o l e @ r e d h a t . c o m" target="_top">Deepak Bhole</a><BR/>
+<a href="mailto:b o u r g e s . l a u r e n t @ g m a i l . c o m" target="_top">Laurent Bourgès</a><BR/>
+<a href="mailto:a d b u c h 7 @ g m a i l . c o m" target="_top">Adam Buchta</a><BR/>
+<a href="mailto:r i c k y e p o d e r i @ y a h o o . e s" target="_top">Ricardo Martín Camarero</a><BR/>
+<a href="mailto:m a r c i n . c i e s l a k @ g m a i l . c o m" target="_top">Marcin Cieslak</a><BR/>
+<a href="mailto:d d a d a c h a @ r e d h a t . c o m" target="_top">Danesh Dadachanji</a><BR/>
+<a href="mailto:a d o m u r a d @ r e d h a t . c o m" target="_top">Adam Domurad</a><BR/>
+<a href="mailto:l d r a c z @ r e d h a t . c o m" target="_top">Lukasz Dracz</a><BR/>
+<a href="mailto:f i t z s i m @ r e d h a t . c o m" target="_top">Thomas Fitzsimmons</a><BR/>
+<a href="mailto:g a m m a r a y @ b a s e a l t . r u" target="_top">Olesya Gerasimenko</a><BR/>
+<a href="mailto:m g o r n y @ g e n t o o . o r g" target="_top">Michał Górny</a><BR/>
+<a href="mailto:m a r k @ d c s . s h e f . a c . u k" target="_top">Mark Greenwood</a><BR/>
+<a href="mailto:h l a v a c k o v a . t e r e z a @ g m a i l . c o m" target="_top">Tereza Hlavackova</a><BR/>
+<a href="mailto:l h e r s c h @ d s s g m b h . d e" target="_top">Lars Herschke</a><BR/>
+<a href="mailto:p h a t i n a @ r e d h a t . c o m" target="_top">Peter Hatina</a><BR/>
+<a href="mailto:a h u g h e s @ r e d h a t . c o m" target="_top">Andrew John Hughes</a><BR/>
+<a href="mailto:j k a n g @ r e d h a t . c o m" target="_top">Jie Kang</a><BR/>
+<a href="mailto:a k a s h c h e @ r e d h a t . c o m" target="_top">Alex Kashchenko</a><BR/>
+<a href="mailto:d o k o @ u b u n t u . c o m" target="_top">Matthias Klose</a><BR/>
+<a href="mailto:s k o l n a g @ g m a i l . c o m" target="_top">Alexandr Kolouch</a><BR/>
+<a href="mailto:j a n . k m e t k o . m l @ g m a i l . c o m" target="_top">Jan Kmetko</a><BR/>
+<a href="mailto:f k u n g @ r e d h a t . c o m" target="_top">Francis Kung</a><BR/>
+<a href="mailto:d l i l a @ r e d h a t . c o m" target="_top">Denis Lila</a><BR/>
+<a href="mailto:d j @ l u c a s i t . c o m" target="_top">DJ Lucas</a><BR/>
+<a href="mailto:o m a j i d @ r e d h a t . c o m" target="_top">Omair Majid</a><BR/>
+<a href="mailto:j m a x w e l l @ u s e r s . s o u r c e f o r g e . n e t" target="_top">Jon A. Maxwell</a><BR/>
+<a href="mailto:t h o m a s @ m 3 y 3 r . d e" target="_top">Thomas Meyer</a><BR/>
+<a href="mailto:k u r t @ i n t r i c a t e s o f t w a r e . c o m" target="_top">Kurt Miller</a><BR/>
+<a href="mailto:s m o h a m m a d @ r e d h a t . c o m" target="_top">Saad Mohammad</a><BR/>
+<a href="mailto:m a r t i n @ m i n i m u m . s e" target="_top">Martin Olsson</a><BR/>
+<a href="mailto:s t e f a n @ c o m p l a n g . t u w i e n . a c . a t" target="_top">Stefan Ring</a><BR/>
+<a href="mailto:v i l l e . s k y t t a @ i k i . f i" target="_top">Ville Skyttä</a><BR/>
+<a href="mailto:f r i d r i c h . s t r b a @ s u s e . c o m" target="_top">Fridrich Strba</a><BR/>
+<a href="mailto:a s u @ r e d h a t . c o m" target="_top">Andrew Su</a><BR/>
+<a href="mailto:j s u m a l i @ r e d h a t . c o m" target="_top">Joshua Sumali</a><BR/>
+<a href="mailto:j t e s d a l l @ m a p c o n . c o m" target="_top">Joel Tesdall</a><BR/>
+<a href="mailto:m v a l a @ r e d h a t . c o m" target="_top">Michal Vala</a><BR/>
+<a href="mailto:j v a n e k @ r e d h a t . c o m" target="_top">Jiri Vanek</a><BR/>
+<a href="mailto:t o m c a c o l c a @ g m a i l . c o m" target="_top">Tomáš Votava</a><BR/>
+<a href="mailto:m a r k @ k l o m p . o r g" target="_top">Mark Wielaard</a><BR/>
+<a href="mailto:g i t n e @ e x c i t e . c o . j p" target="_top">Jacob Wisor</a><BR/>
+<a href="mailto:m w o n g @ r e d h a t . c o m" target="_top">Man Lung Wong</a><BR/>
+<BR/>
+This project also includes code from the following projects:<BR/>
+OpenJDK <a href="http://openjdk.java.net/">http://openjdk.java.net/</a><BR/>
+Netx <a href="http://jnlp.sourceforge.net/netx/">http://jnlp.sourceforge.net/netx/</a><BR/>
+<BR/>
+</blockquote></p>
+ <a name="SEE_ALSO"/><H3>SEE ALSO</H3>
+<p><blockquote><li><a href="icedtea-web.html">icedtea-web</a></li>
+<li><a href="javaws.html">javaws</a></li>
+<li><a href="icedtea-web-plugin.html">icedtea-web-plugin</a></li>
+<li><a href="itweb-settings.html">itweb-settings</a></li>
+<li><a href="policyeditor.html">policyeditor</a></li>
+<li><a href="policytool.html">policytool</a></li>
+<li><a href="java.html">java</a></li>
+<BR/>
+<a href="http://icedtea.classpath.org/wiki/IcedTea-Web">http://icedtea.classpath.org/wiki/IcedTea-Web</a><BR/>
+<a href="http://icedtea.classpath.org/hg/icedtea-web">http://icedtea.classpath.org/hg/icedtea-web</a><BR/>
+</blockquote></p>
+  </body>
+</html>

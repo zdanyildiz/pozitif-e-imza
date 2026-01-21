@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <title>itweb-settings: 1.8.8</title>    <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8" />
+  </head>
+  <body>
+    <H5  align="right">itweb-settings: 1.8.8, 10/28/21 11:44 AM</H5>
+<center><img src="itw_logo.png" alt="IcedTea-Web Logo" width="413" height="240"/></center><BR/>
+
+<H4>Context</H4><li><a href="#AUTHOR">AUTHOR</a></li><li><a href="#BUGS">BUGS</a></li><li><a href="#DESCRIPTION">DESCRIPTION</a></li><li><a href="#EXAMPLES">EXAMPLES</a></li><li><a href="#FILES">FILES</a></li><li><a href="#NAME">NAME</a></li><li><a href="#SEE_ALSO">SEE ALSO</a></li><li><a href="#SYNOPSIS">SYNOPSIS</a></li>
+ <a name="NAME"/><H3>NAME</H3>
+<p><blockquote>itweb-settings - view and modify settings for <B>javaws </B>and the <B>browser plugin</B></blockquote></p>
+ <a name="SYNOPSIS"/><H3>SYNOPSIS</H3>
+<p><blockquote><B>itweb-settings </B><BR/>
+<B>itweb-settings </B>command arguments</blockquote></p>
+ <a name="DESCRIPTION"/><H3>DESCRIPTION</H3>
+<p><blockquote><B>itweb-settings </B>is a command line and a GUI program to modify and edit settings used by the IcedTea-Web implementation of<B> javaws </B>and the <B>browser plugin</B>.<BR/>
+<BR/>
+If executed without any arguments, it starts up a GUI. Otherwise, it tries to do what is specified in the argument.<BR/>
+<BR/>
+The command-line allows quickly searching, making a copy of and modifying specific settings without having to hunt through a UI.</blockquote></p>
+ <a name="DESCRIPTION"/><H3>DESCRIPTION</H3>
+<p><blockquote><li><b>-check name </b> - Checks that all the current settings have valid values.(No argument expected)</li><li><b>-get name </b> - Shows the value of the specified settings.(Expected one or more arguments)</li><li><b>-headless  </b> - Disables download window, other UIs.(No argument expected)</li><li><b>-help  </b> - Prints out information about supported command and basic usage. Can also take an parameter, and then it prints detailed help for this command.(No argument expected)</li><li><b>-info name </b> - Shows additional information about the named settings. Includes a description, the current value, the possible values, and the source of the setting.(Expected one or more arguments)</li><li><b>-list  </b> - Shows a list of all the IcedTea-Web settings and their current values.(No argument expected)</li><li><b>-reset name </b> - Resets the specified settings to their original value.(Expected one or more arguments)</li><li><b>-reset all </b> - Resets all settings to their original values.(No argument expected)</li><li><b>-set name value </b> - Sets the settings to the new value specified, if it is an appropriate value.(Expected even number of arguments with param=value as valid argument)</li><li><b>-verbose  </b> - Enable verbose output.(No argument expected)</li></blockquote></p>
+
+ <a name="EXAMPLES"/><H3>EXAMPLES</H3>
+<p><blockquote><li><b>itweb-settings </b> - Show the GUI editor</li><li><b>itweb-settings  -reset deployment.proxy.type </b> -  Resets the value of `deployment.proxy.type` setting.</li></blockquote></p><BR/>
+<p><blockquote><B>Known properties (key and default value):</B><BR/>
+<p><blockquote><li><b>deployment.background.threads.count </b> - 3 (Possible: are in range 1 to 16 (inclusive))</li><li><b>deployment.browser.path </b> - null (Possible: Set path to browser or any command launching url. If not set, default browser is used. If default browser is not available, you will be be prompted to provide URL consumer. Eg: firefox, or (windows) rundll32 url.dll,FileProtocolHandler , microsoft-edge, (mac) safari, xdg-open (linux) like commands. In headless mode you can use wget, curl or lynx. It can be also javaws itself to launch other jnlp. You can set yor custom browser via deployment.browser.path property. $BROWSER environment variable is serving same purpose. You can use keyword INTERNAL-HTML to launch internal browser. But be warned, it is terrible. Use ALWAYS-ASK to enforce prompt each time instead of using defaults.)</li><li><b>deployment.cache.jarcompression </b> - 0 (Possible: are in range 0 to 10 (inclusive))</li><li><b>deployment.cache.max.size </b> - -1 (Possible: are in range -1 to 2,147,483,647 (inclusive))</li><li><b>deployment.console.startup.mode </b> - HIDE (Possible: [DISABLE, HIDE, SHOW, SHOW_PLUGIN_ONLY, SHOW_JAVAWS_ONLY])</li><li><b>deployment.enable.cache.fsync </b> - false (Possible: are true or false)</li><li><b>deployment.headless.ignore </b> - false (Possible: are true or false)</li><li><b>deployment.https.noenforce </b> - false (Possible: are true or false)</li><li><b>deployment.javapi.cache.enabled </b> - false (Possible: are true or false)</li><li><b>deployment.javaws.associations </b> - 2 (Possible: are in range 0 to 3 (inclusive))</li><li><b>deployment.javaws.autodownload </b> - false (Possible: are true or false)</li><li><b>deployment.javaws.installURL </b> - null (Possible: include any valid url (eg. http://icedtea.classpath.org/hg/))</li><li><b>deployment.javaws.shortcut </b> - ASK_IF_HINTED (Possible: [ALWAYS, ALWAYS_IF_HINTED, ASK_USER, ASK_IF_HINTED, NEVER])</li><li><b>deployment.javaws.update.timeout </b> - 500 (Possible: are in range 0 to 10,000 (inclusive))</li><li><b>deployment.jnlpclassloader.strict </b> - true (Possible: are true or false)</li><li><b>deployment.jre.dir </b> - null</li><li><b>deployment.launcher.rust.bootcp.add </b> - null (Possible: Rust native launchers only! CP and XBootCP properties are space separated members of bootcp/cp to be removed or added. eg `...cp.add=/usr/java/rhino.jar /usr/java/scary.jar` will add those two jars to cp.  Eg: `...bootcp.remove=rhino.jar tagsoup.jar` will remove those two jars no meter of path. Removal is done first.)</li><li><b>deployment.launcher.rust.bootcp.remove </b> -  (Possible: Rust native launchers only! CP and XBootCP properties are space separated members of bootcp/cp to be removed or added. eg `...cp.add=/usr/java/rhino.jar /usr/java/scary.jar` will add those two jars to cp.  Eg: `...bootcp.remove=rhino.jar tagsoup.jar` will remove those two jars no meter of path. Removal is done first.)</li><li><b>deployment.launcher.rust.cp.add </b> -  (Possible: Rust native launchers only! CP and XBootCP properties are space separated members of bootcp/cp to be removed or added. eg `...cp.add=/usr/java/rhino.jar /usr/java/scary.jar` will add those two jars to cp.  Eg: `...bootcp.remove=rhino.jar tagsoup.jar` will remove those two jars no meter of path. Removal is done first.)</li><li><b>deployment.launcher.rust.cp.remove </b> -  (Possible: Rust native launchers only! CP and XBootCP properties are space separated members of bootcp/cp to be removed or added. eg `...cp.add=/usr/java/rhino.jar /usr/java/scary.jar` will add those two jars to cp.  Eg: `...bootcp.remove=rhino.jar tagsoup.jar` will remove those two jars no meter of path. Removal is done first.)</li><li><b>deployment.log </b> - false (Possible: are true or false)</li><li><b>deployment.log.file </b> - false (Possible: are true or false)</li><li><b>deployment.log.file.clientapp </b> - true (Possible: are true or false)</li><li><b>deployment.log.file.legacylog </b> - false (Possible: are true or false)</li><li><b>deployment.log.headers </b> - false (Possible: are true or false)</li><li><b>deployment.log.stdstreams </b> - true (Possible: are true or false)</li><li><b>deployment.log.system </b> - true (Possible: are true or false)</li><li><b>deployment.manifest.attributes.check </b> - ALL (Possible: (Values that can be used alone only): [ALL, NONE] (Values that can be used in combination separated by the delimiter "," with no space expected ): [ALAC, CODEBASE, ENTRYPOINT, PERMISSIONS, TRUSTED])</li><li><b>deployment.max.urls.download.indicator </b> - 16 (Possible: are in range 1 to 1,024 (inclusive))</li><li><b>deployment.plugin.jvm.arguments </b> - null</li><li><b>deployment.proxy.auto.config.url </b> - null (Possible: include any valid url (eg. http://icedtea.classpath.org/hg/))</li><li><b>deployment.proxy.bypass.list </b> - null</li><li><b>deployment.proxy.bypass.local </b> - null</li><li><b>deployment.proxy.ftp.host </b> - null</li><li><b>deployment.proxy.ftp.port </b> - null</li><li><b>deployment.proxy.http.host </b> - null</li><li><b>deployment.proxy.http.port </b> - null</li><li><b>deployment.proxy.https.host </b> - null</li><li><b>deployment.proxy.https.port </b> - null</li><li><b>deployment.proxy.override.hosts </b> - null</li><li><b>deployment.proxy.same </b> - false (Possible: are true or false)</li><li><b>deployment.proxy.socks.host </b> - null</li><li><b>deployment.proxy.socks.port </b> - null</li><li><b>deployment.proxy.type </b> - 3 (Possible: are in range -1 to 3 (inclusive))</li><li><b>deployment.security.askgrantdialog.notinca </b> - true (Possible: are true or false)</li><li><b>deployment.security.askgrantdialog.show </b> - true (Possible: are true or false)</li><li><b>deployment.security.expired.warning </b> - true (Possible: are true or false)</li><li><b>deployment.security.itw.ignorecertissues </b> - false (Possible: are true or false)</li><li><b>deployment.security.jsse.hostmismatch.warning </b> - true (Possible: are true or false)</li><li><b>deployment.security.level </b> - null (Possible: DENY_ALL DENY_UNSIGNED ASK_UNSIGNED ALLOW_UNSIGNED)</li><li><b>deployment.security.notinca.warning </b> - true (Possible: are true or false)</li><li><b>deployment.security.sandbox.awtwarningwindow </b> - true (Possible: are true or false)</li><li><b>deployment.security.sandbox.jnlp.enhanced </b> - true (Possible: are true or false)</li><li><b>deployment.security.trusted.policy </b> - null (Possible: include an absolute path to a file or directory)</li><li><b>deployment.small.size.override.height </b> - 600 (Possible: are in range -9,999 to 9,999 (inclusive))</li><li><b>deployment.small.size.override.width </b> - 800 (Possible: are in range -9,999 to 9,999 (inclusive))</li><li><b>deployment.small.size.treshold </b> - 10 (Possible: are in range 0 to 1,000 (inclusive))</li><li><b>deployment.system.cachedir </b> - null (Possible: include an absolute path to a file or directory)</li><li><b>deployment.system.config </b> - null (Possible: include any valid url (eg. http://icedtea.classpath.org/hg/))</li><li><b>deployment.system.config.mandatory </b> - false (Possible: are true or false)</li><li><b>deployment.system.security.cacerts </b> - %JAVA_HOME\lib\security\cacerts (Possible: include an absolute path to a file or directory)</li><li><b>deployment.system.security.jssecacerts </b> - %JAVA_HOME\lib\security\jssecacerts (Possible: include an absolute path to a file or directory)</li><li><b>deployment.system.security.policy </b> - null (Possible: include any valid url (eg. http://icedtea.classpath.org/hg/))</li><li><b>deployment.system.security.trusted.certs </b> - %JAVA_HOME\lib\security\trusted.certs (Possible: include an absolute path to a file or directory)</li><li><b>deployment.system.security.trusted.clientautcerts </b> - %JAVA_HOME\lib\security\trusted.clientcerts (Possible: include an absolute path to a file or directory)</li><li><b>deployment.system.security.trusted.jssecerts </b> - %JAVA_HOME\lib\security\trusted.jssecerts (Possible: include an absolute path to a file or directory)</li><li><b>deployment.user.cachedir </b> - %XDG_CACHE_HOME\icedtea-web\cache (Possible: include an absolute path to a file or directory)</li><li><b>deployment.user.locksdir </b> - %TMP\%USER\netx\locks (Possible: include an absolute path to a file or directory)</li><li><b>deployment.user.logdir </b> - %XDG_CONFIG_HOME\icedtea-web\log (Possible: include an absolute path to a file or directory)</li><li><b>deployment.user.pcachedir </b> - %XDG_CACHE_HOME\icedtea-web\pcache (Possible: include an absolute path to a file or directory)</li><li><b>deployment.user.runningfile </b> - %TMP\%USER\netx\locks\netx_running (Possible: include an absolute path to a file or directory)</li><li><b>deployment.user.security.policy </b> - %XDG_CONFIG_HOME\icedtea-web\security\java.policy (Possible: include any valid url (eg. http://icedtea.classpath.org/hg/))</li><li><b>deployment.user.security.trusted.cacerts </b> - %XDG_CONFIG_HOME\icedtea-web\security\trusted.cacerts (Possible: include an absolute path to a file or directory)</li><li><b>deployment.user.security.trusted.certs </b> - %XDG_CONFIG_HOME\icedtea-web\security\trusted.certs (Possible: include an absolute path to a file or directory)</li><li><b>deployment.user.security.trusted.clientauthcerts </b> - %XDG_CONFIG_HOME\icedtea-web\security\trusted.clientcerts (Possible: include an absolute path to a file or directory)</li><li><b>deployment.user.security.trusted.jssecacerts </b> - %XDG_CONFIG_HOME\icedtea-web\security\trusted.jssecacerts (Possible: include an absolute path to a file or directory)</li><li><b>deployment.user.security.trusted.jssecerts </b> - %XDG_CONFIG_HOME\icedtea-web\security\trusted.jssecerts (Possible: include an absolute path to a file or directory)</li><li><b>deployment.user.tmp </b> - %XDG_CACHE_HOME\icedtea-web\tmp (Possible: include an absolute path to a file or directory)</li></blockquote></p></blockquote></p>
+ <a name="FILES"/><H3>FILES</H3>
+<p><blockquote><li><b>%JAVA_HOME\lib\deployment.config </b> - java-global deployment properties file. May be affected by deployment.jre.dir.</li><li><b>%XDG_CACHE_HOME\icedtea-web\cache </b> - Contains cached runtime entries. Controlled by <B>deployment.user.cachedir</B></li><li><b>%XDG_CACHE_HOME\icedtea-web\cache\recently_used </b> - Additional information about items in cache</li><li><b>%XDG_CACHE_HOME\icedtea-web\pcache </b> - Contains saved application data. Controlled by <B>deployment.user.pcachedir</B></li><li><b>%XDG_CACHE_HOME\icedtea-web\tmp </b> - Contains temporary runtime files. Controlled by <B>deployment.user.tmp</B></li><li><b>%XDG_CONFIG_HOME\icedtea-web\.appletTrustSettings </b> - File responsible for various actions on applets and apps based on their codebase based on users actions.</li><li><b>%XDG_CONFIG_HOME\icedtea-web\deployment.properties </b> - Users main deployment properties file.</li><li><b>%XDG_CONFIG_HOME\icedtea-web\generated_jnlps </b> - Location where jnlp files generated from html pages for javaws applications desktop/menu launchers icons are stored</li><li><b>%XDG_CONFIG_HOME\icedtea-web\icons </b> - Location where icons of javaws applications desktop/menu launchers icons are stored</li><li><b>%XDG_CONFIG_HOME\icedtea-web\log </b> - contains file-log files (if enabled), itw-cplugin-date_time.log for native part of plugin, itw-javantx-date_time.log for everything else. Controlled by <B>deployment.user.logdir</B></li><li><b>%XDG_DATA_HOME\applications\javaws </b> - Subdirectory in users menus space, for placing custom menu shortcuts.</li><li><b>{%WINDIR\Sun\Java or \etc\.java}\deployment\.appletTrustSettings </b> - File responsible for various actions on applets and apps based on their codebase based on admins actions.</li><li><b>{%WINDIR\Sun\Java or \etc\.java}\deployment\deployment.config </b> - Global deployment config file.</li></blockquote></p><p><blockquote>Where $XDG_CONFIG_DIR, $XDG_CACHE_DIR and $XDG_RUNTIME_DIR are  set  as ~/.config, ~/.cache and /tmp or /var/tmp if not set.</blockquote></p>
+ <a name="BUGS"/><H3>BUGS</H3>
+<p><blockquote>There aren't any known bugs. If you come across one, please file it at:<BR/>
+<a href="http://icedtea.classpath.org/wiki/IcedTea-Web#Filing_bugs">http://icedtea.classpath.org/wiki/IcedTea-Web#Filing_bugs</a><BR/>
+<a href="http://icedtea.classpath.org/bugzilla">http://icedtea.classpath.org/bugzilla</a><BR/>
+<BR/>
+Please run in debug (-verbose switch or itw-settings setting or ICEDTEAPLUGIN_DEBUG variable set to true) mode and include that output (best is from java console) with URL to jnlp or html file (or the jnlp/html file or  application itself) when filing out the bug report.<BR/>
+</blockquote></p>
+ <a name="AUTHOR"/><H3>AUTHOR</H3>
+<p><blockquote>The following people have made contibutions to this project.<BR/>
+Please keep this list in alphabetical order.<BR/>
+<BR/>
+<a href="mailto:l a n g e l @ r e d h a t . c o m" target="_top">Lillian Angel</a><BR/>
+<a href="mailto:a a z o r e s @ r e d h a t . c o m" target="_top">Andrew Azores</a><BR/>
+<a href="mailto:d b h o l e @ r e d h a t . c o m" target="_top">Deepak Bhole</a><BR/>
+<a href="mailto:b o u r g e s . l a u r e n t @ g m a i l . c o m" target="_top">Laurent Bourgès</a><BR/>
+<a href="mailto:a d b u c h 7 @ g m a i l . c o m" target="_top">Adam Buchta</a><BR/>
+<a href="mailto:r i c k y e p o d e r i @ y a h o o . e s" target="_top">Ricardo Martín Camarero</a><BR/>
+<a href="mailto:m a r c i n . c i e s l a k @ g m a i l . c o m" target="_top">Marcin Cieslak</a><BR/>
+<a href="mailto:d d a d a c h a @ r e d h a t . c o m" target="_top">Danesh Dadachanji</a><BR/>
+<a href="mailto:a d o m u r a d @ r e d h a t . c o m" target="_top">Adam Domurad</a><BR/>
+<a href="mailto:l d r a c z @ r e d h a t . c o m" target="_top">Lukasz Dracz</a><BR/>
+<a href="mailto:f i t z s i m @ r e d h a t . c o m" target="_top">Thomas Fitzsimmons</a><BR/>
+<a href="mailto:g a m m a r a y @ b a s e a l t . r u" target="_top">Olesya Gerasimenko</a><BR/>
+<a href="mailto:m g o r n y @ g e n t o o . o r g" target="_top">Michał Górny</a><BR/>
+<a href="mailto:m a r k @ d c s . s h e f . a c . u k" target="_top">Mark Greenwood</a><BR/>
+<a href="mailto:h l a v a c k o v a . t e r e z a @ g m a i l . c o m" target="_top">Tereza Hlavackova</a><BR/>
+<a href="mailto:l h e r s c h @ d s s g m b h . d e" target="_top">Lars Herschke</a><BR/>
+<a href="mailto:p h a t i n a @ r e d h a t . c o m" target="_top">Peter Hatina</a><BR/>
+<a href="mailto:a h u g h e s @ r e d h a t . c o m" target="_top">Andrew John Hughes</a><BR/>
+<a href="mailto:j k a n g @ r e d h a t . c o m" target="_top">Jie Kang</a><BR/>
+<a href="mailto:a k a s h c h e @ r e d h a t . c o m" target="_top">Alex Kashchenko</a><BR/>
+<a href="mailto:d o k o @ u b u n t u . c o m" target="_top">Matthias Klose</a><BR/>
+<a href="mailto:s k o l n a g @ g m a i l . c o m" target="_top">Alexandr Kolouch</a><BR/>
+<a href="mailto:j a n . k m e t k o . m l @ g m a i l . c o m" target="_top">Jan Kmetko</a><BR/>
+<a href="mailto:f k u n g @ r e d h a t . c o m" target="_top">Francis Kung</a><BR/>
+<a href="mailto:d l i l a @ r e d h a t . c o m" target="_top">Denis Lila</a><BR/>
+<a href="mailto:d j @ l u c a s i t . c o m" target="_top">DJ Lucas</a><BR/>
+<a href="mailto:o m a j i d @ r e d h a t . c o m" target="_top">Omair Majid</a><BR/>
+<a href="mailto:j m a x w e l l @ u s e r s . s o u r c e f o r g e . n e t" target="_top">Jon A. Maxwell</a><BR/>
+<a href="mailto:t h o m a s @ m 3 y 3 r . d e" target="_top">Thomas Meyer</a><BR/>
+<a href="mailto:k u r t @ i n t r i c a t e s o f t w a r e . c o m" target="_top">Kurt Miller</a><BR/>
+<a href="mailto:s m o h a m m a d @ r e d h a t . c o m" target="_top">Saad Mohammad</a><BR/>
+<a href="mailto:m a r t i n @ m i n i m u m . s e" target="_top">Martin Olsson</a><BR/>
+<a href="mailto:s t e f a n @ c o m p l a n g . t u w i e n . a c . a t" target="_top">Stefan Ring</a><BR/>
+<a href="mailto:v i l l e . s k y t t a @ i k i . f i" target="_top">Ville Skyttä</a><BR/>
+<a href="mailto:f r i d r i c h . s t r b a @ s u s e . c o m" target="_top">Fridrich Strba</a><BR/>
+<a href="mailto:a s u @ r e d h a t . c o m" target="_top">Andrew Su</a><BR/>
+<a href="mailto:j s u m a l i @ r e d h a t . c o m" target="_top">Joshua Sumali</a><BR/>
+<a href="mailto:j t e s d a l l @ m a p c o n . c o m" target="_top">Joel Tesdall</a><BR/>
+<a href="mailto:m v a l a @ r e d h a t . c o m" target="_top">Michal Vala</a><BR/>
+<a href="mailto:j v a n e k @ r e d h a t . c o m" target="_top">Jiri Vanek</a><BR/>
+<a href="mailto:t o m c a c o l c a @ g m a i l . c o m" target="_top">Tomáš Votava</a><BR/>
+<a href="mailto:m a r k @ k l o m p . o r g" target="_top">Mark Wielaard</a><BR/>
+<a href="mailto:g i t n e @ e x c i t e . c o . j p" target="_top">Jacob Wisor</a><BR/>
+<a href="mailto:m w o n g @ r e d h a t . c o m" target="_top">Man Lung Wong</a><BR/>
+<BR/>
+This project also includes code from the following projects:<BR/>
+OpenJDK <a href="http://openjdk.java.net/">http://openjdk.java.net/</a><BR/>
+Netx <a href="http://jnlp.sourceforge.net/netx/">http://jnlp.sourceforge.net/netx/</a><BR/>
+<BR/>
+</blockquote></p>
+ <a name="SEE_ALSO"/><H3>SEE ALSO</H3>
+<p><blockquote><li><a href="icedtea-web.html">icedtea-web</a></li>
+<li><a href="javaws.html">javaws</a></li>
+<li><a href="icedtea-web-plugin.html">icedtea-web-plugin</a></li>
+<li><a href="itweb-settings.html">itweb-settings</a></li>
+<li><a href="policyeditor.html">policyeditor</a></li>
+<li><a href="policytool.html">policytool</a></li>
+<li><a href="java.html">java</a></li>
+<BR/>
+<a href="http://icedtea.classpath.org/wiki/IcedTea-Web">http://icedtea.classpath.org/wiki/IcedTea-Web</a><BR/>
+<a href="http://icedtea.classpath.org/hg/icedtea-web">http://icedtea.classpath.org/hg/icedtea-web</a><BR/>
+</blockquote></p>
+  </body>
+</html>
