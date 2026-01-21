@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<config>
+    <jnlp-url>https://ebelge.gib.gov.tr/EFaturaWebSocket/EFaturaWebSocket.jnlp</jnlp-url>
+    <cache-dir>cache</cache-dir>
+    <auto-update>true</auto-update>
+</config>
