@@ -13,12 +13,14 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -26,137 +28,119 @@ import java.util.List;
 
 public class Main extends Application {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
-    private static final String JNLP_URL = "https://ebelge.gib.gov.tr/EFaturaWebSocket/EFaturaWebSocket.jnlp";
-    private static final String CACHE_DIR = "cache";
 
     private Label statusLabel;
     private ProgressBar progressBar;
 
     @Override
     public void start(Stage primaryStage) {
-        setupUI(primaryStage);
-        startLaunchTask();
-    }
-
-    private void setupUI(Stage primaryStage) {
+        // 1. UI Design (JavaFX)
         statusLabel = new Label("Hazırlanıyor...");
         statusLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #333;");
 
-        progressBar = new ProgressBar(0);
+        progressBar = new ProgressBar(0.0);
         progressBar.setPrefWidth(350);
         progressBar.setStyle("-fx-accent: #2196F3;");
 
-        VBox root = new VBox(20, statusLabel, progressBar);
-        root.setAlignment(Pos.CENTER);
-        root.setPadding(new Insets(40));
-        root.setStyle("-fx-background-color: #f5f5f5;");
+        VBox vBox = new VBox(15, statusLabel, progressBar);
+        vBox.setAlignment(Pos.CENTER);
+        vBox.setPadding(new Insets(20));
 
-        Scene scene = new Scene(root, 450, 200);
-        primaryStage.setTitle("GİB E-Fatura Uygulama Başlatıcı");
-        primaryStage.setScene(scene);
+        StackPane root = new StackPane(vBox);
+        root.setStyle("-fx-background-color: white;");
+
+        primaryStage.setTitle("Pozitif E-İmza Başlatıcı");
+        primaryStage.setScene(new Scene(root, 450, 200));
         primaryStage.setResizable(false);
         primaryStage.show();
+
+        // 2. Background Logic (Task<Void>)
+        startOrchestration();
     }
 
-    private void startLaunchTask() {
-        Task<Void> launchTask = new Task<>() {
+    private void startOrchestration() {
+        Task<Void> task = new Task<>() {
             @Override
             protected Void call() throws Exception {
-                try {
-                    updateMessage("JNLP yapılandırması alınıyor...");
-                    updateProgress(0.1, 1.0);
+                // Step A (Init)
+                String jnlpUrl = "https://ebelge.gib.gov.tr/EFaturaWebSocket/EFaturaWebSocket.jnlp";
+                String cacheDir = System.getProperty("user.home") + File.separator + ".giblauncher" + File.separator
+                        + "cache";
+                Path cachePath = Paths.get(cacheDir);
 
-                    JnlpParser parser = new JnlpParser();
-                    JnlpDoc jnlpDoc = parser.parse(new URL(JNLP_URL));
+                // Step B (Parse)
+                updateMessage("Yapılandırma okunuyor...");
+                updateProgress(0.1, 1.0);
+                JnlpParser parser = new JnlpParser();
+                JnlpDoc jnlpDoc = parser.parse(new URL(jnlpUrl));
 
-                    updateMessage("Dosyalar kontrol ediliyor...");
-                    updateProgress(0.2, 1.0);
+                // Step C (Download)
+                updateMessage("Dosyalar indiriliyor...");
+                ResourceDownloader downloader = new ResourceDownloader();
 
-                    ResourceDownloader downloader = new ResourceDownloader();
-                    Path cachePath = Paths.get(CACHE_DIR);
-
-                    if (jnlpDoc.getResources() == null || jnlpDoc.getResources().getJars() == null) {
-                        throw new Exception("JNLP dosyasında JAR kaynakları bulunamadı.");
-                    }
-
+                if (jnlpDoc.getResources() != null && jnlpDoc.getResources().getJars() != null) {
                     List<Jar> jars = jnlpDoc.getResources().getJars();
-                    int totalJars = jars.size();
+                    int total = jars.size();
                     String codebase = jnlpDoc.getCodebase();
 
-                    for (int i = 0; i < totalJars; i++) {
+                    for (int i = 0; i < total; i++) {
                         Jar jar = jars.get(i);
                         String href = jar.getHref();
 
-                        // Tam URL oluşturma
-                        String fileUrl = href;
-                        if (!fileUrl.startsWith("http")) {
+                        // URL building logic
+                        String downloadUrl = href;
+                        if (!downloadUrl.startsWith("http")) {
                             String base = codebase != null ? codebase : "";
-                            if (!base.endsWith("/") && !fileUrl.startsWith("/")) {
+                            if (!base.endsWith("/") && !downloadUrl.startsWith("/")) {
                                 base += "/";
                             }
-                            fileUrl = base + fileUrl;
+                            downloadUrl = base + downloadUrl;
                         }
 
-                        // Dosya adını temizleme (href path içerebilir)
-                        String fileName = href;
-                        if (fileName.contains("/")) {
-                            fileName = fileName.substring(fileName.lastIndexOf("/") + 1);
-                        }
-                        Path dest = cachePath.resolve(fileName);
+                        // Local path logic
+                        String fileName = href.contains("/") ? href.substring(href.lastIndexOf("/") + 1) : href;
+                        Path destination = cachePath.resolve(fileName);
 
-                        updateMessage("İndiriliyor: " + fileName + " (" + (i + 1) + "/" + totalJars + ")");
-                        downloader.downloadFile(fileUrl, dest);
-
-                        double progress = 0.2 + (0.6 * (i + 1) / totalJars);
-                        updateProgress(progress, 1.0);
+                        downloader.downloadFile(downloadUrl, destination);
+                        updateProgress(i + 1, total);
                     }
-
-                    updateMessage("Uygulama başlatılıyor...");
-                    updateProgress(0.9, 1.0);
-
-                    ProcessManager processManager = new ProcessManager();
-                    ProcessBuilder pb = processManager.buildProcess(jnlpDoc, cachePath);
-                    pb.start();
-
-                    updateMessage("Uygulama başarıyla başlatıldı.");
-                    updateProgress(1.0, 1.0);
-
-                    // Başarılı başlatma sonrası kısa bir süre bekleyip kapatabiliriz
-                    Thread.sleep(1000);
-
-                } catch (Exception e) {
-                    logger.error("Başlatma sırasında hata oluştu:", e);
-                    throw e; // Task'ın failed() metoduna düşmesi için
                 }
+
+                // Step D (Launch)
+                updateMessage("Uygulama başlatılıyor...");
+                updateProgress(1.0, 1.0);
+                ProcessManager processManager = new ProcessManager();
+                ProcessBuilder pb = processManager.buildProcess(jnlpDoc, cachePath);
+
+                logger.info("Dış uygulama başlatılıyor...");
+                pb.start();
+
+                // Step E (Finish)
+                Platform.runLater(Platform::exit);
+
                 return null;
-            }
-
-            @Override
-            protected void succeeded() {
-                logger.info("Launcher başarıyla görevini tamamladı.");
-                Platform.exit();
-                System.exit(0);
-            }
-
-            @Override
-            protected void failed() {
-                Throwable exception = getException();
-                String errorMessage = exception != null ? exception.getMessage() : "Bilinmeyen bir hata oluştu.";
-
-                Platform.runLater(() -> {
-                    statusLabel.setTextFill(Color.RED);
-                    statusLabel.setText("Hata: " + errorMessage);
-                    progressBar.setProgress(0);
-                    progressBar.setStyle("-fx-accent: red;");
-                });
             }
         };
 
-        // UI Binding
-        statusLabel.textProperty().bind(launchTask.messageProperty());
-        progressBar.progressProperty().bind(launchTask.progressProperty());
+        // Binding
+        statusLabel.textProperty().bind(task.messageProperty());
+        progressBar.progressProperty().bind(task.progressProperty());
 
-        Thread thread = new Thread(launchTask);
+        // Error Handling
+        task.setOnFailed(event -> {
+            Throwable ex = task.getException();
+            logger.error("Hata oluştu: ", ex);
+
+            // Unbind to set manual text
+            statusLabel.textProperty().unbind();
+            progressBar.progressProperty().unbind();
+
+            statusLabel.setTextFill(Color.RED);
+            statusLabel.setText("Hata: " + (ex != null ? ex.getMessage() : "Bilinmeyen hata"));
+            progressBar.setProgress(0);
+        });
+
+        Thread thread = new Thread(task);
         thread.setDaemon(true);
         thread.start();
     }
