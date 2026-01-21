@@ -4,7 +4,8 @@
         Title="Pozitif Launcher" Height="300" Width="500"
         WindowStyle="None" ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen" Topmost="True"
-        AllowsTransparency="True" Background="Transparent">
+        AllowsTransparency="True" Background="Transparent"
+        ShowInTaskbar="False">
 
     <Border CornerRadius="10" Background="White" BorderBrush="#007ACC" BorderThickness="1">
         <Border.Effect>

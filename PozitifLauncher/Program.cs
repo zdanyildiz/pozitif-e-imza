@@ -22,28 +22,19 @@ namespace PozitifLauncher
 
             string jnlpFilePath = args[0];
 
-            // 2. Path Detection
+            // 2. Path Detection (Relative Paths Rule)
             string baseDir = AppDomain.CurrentDomain.BaseDirectory;
+            // Expected structure: {BaseDir}\bin\jre8_32
             string javaPath = Path.Combine(baseDir, "bin", "jre8_32");
+            // Expected structure: {BaseDir}\bin\icedtea\bin\javaws.exe
             string icedTeaPath = Path.Combine(baseDir, "bin", "icedtea", "bin", "javaws.exe");
 
+            // 3. Defensive Coding: Check Critical Component
             if (!File.Exists(icedTeaPath))
             {
-                MessageBox.Show($"Required component not found:\n{icedTeaPath}\n\nPlease reinstall the application.",
+                MessageBox.Show($"Critical component missing:\n{icedTeaPath}\n\nPlease reinstall the application.",
                                 "Configuration Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
-            }
-
-            // 3. Set Environment Variables
-            try
-            {
-                Environment.SetEnvironmentVariable("ITW_JAVA_HOME", javaPath);
-                Environment.SetEnvironmentVariable("JAVA_HOME", javaPath);
-            }
-            catch (Exception ex)
-            {
-                 MessageBox.Show($"Failed to set environment variables: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                 return;
             }
 
             // 4. Initialize WPF Application
@@ -51,30 +42,45 @@ namespace PozitifLauncher
             app.InitializeComponent();
 
             // 5. Setup Splash Screen
+            // "Splash Screen must be shown... and stay AlwaysOnTop"
             SplashScreen splash = new SplashScreen();
 
             // 6. Launch Logic
             splash.Loaded += async (s, e) =>
             {
-                await LaunchAndMonitorAsync(icedTeaPath, jnlpFilePath, splash);
+                // Non-blocking Task execution
+                await LaunchAndMonitorAsync(icedTeaPath, javaPath, jnlpFilePath, splash);
             };
 
             app.Run(splash);
         }
 
-        private static async Task LaunchAndMonitorAsync(string exePath, string jnlpPath, SplashScreen splash)
+        private static async Task LaunchAndMonitorAsync(string exePath, string javaHomePath, string jnlpPath, SplashScreen splash)
         {
             try
             {
                 ProcessStartInfo psi = new ProcessStartInfo
                 {
                     FileName = exePath,
+                    // Arguments Rule: -Xnosplash -headless "{jnlpFilePath}"
                     Arguments = $"-Xnosplash -headless \"{jnlpPath}\"",
-                    UseShellExecute = false,
-                    CreateNoWindow = true,
+                    UseShellExecute = false, // Required for Environment Variables and CreateNoWindow
+                    CreateNoWindow = true,   // Hide Console
                     RedirectStandardError = true,
                     RedirectStandardOutput = true
                 };
+
+                // Environment Variables Rule: Strictly set for that process
+                // UseShellExecute is false, so we can modify EnvironmentVariables
+                if (psi.EnvironmentVariables.ContainsKey("ITW_JAVA_HOME"))
+                    psi.EnvironmentVariables["ITW_JAVA_HOME"] = javaHomePath;
+                else
+                    psi.EnvironmentVariables.Add("ITW_JAVA_HOME", javaHomePath);
+
+                if (psi.EnvironmentVariables.ContainsKey("JAVA_HOME"))
+                    psi.EnvironmentVariables["JAVA_HOME"] = javaHomePath;
+                else
+                    psi.EnvironmentVariables.Add("JAVA_HOME", javaHomePath);
 
                 using (Process process = new Process { StartInfo = psi })
                 {
@@ -98,7 +104,8 @@ namespace PozitifLauncher
                     // Begin asynchronous read of the error stream
                     process.BeginErrorReadLine();
 
-                    // Monitor strategy:
+                    // Monitor strategy: Wait for launch or timeout
+                    // "It must close automatically when the javaws process is successfully started and active (or after a 10-15s timeout as a fallback)."
                     int timeoutMs = 15000;
                     int checkIntervalMs = 500;
                     int elapsedMs = 0;
@@ -114,6 +121,10 @@ namespace PozitifLauncher
                         }
 
                         process.Refresh();
+                        // If the process has a window handle, it's likely up and running.
+                        // Note: -headless might prevent a Main Window for javaws, but the spawned app might show one.
+                        // However, we check strictly for javaws state here.
+                        // If javaws stays alive for a bit without exiting, we assume success.
                         if (process.MainWindowHandle != IntPtr.Zero)
                         {
                             break;
@@ -128,15 +139,17 @@ namespace PozitifLauncher
                         if (process.ExitCode != 0)
                         {
                             string errorMsg = errorOutput.ToString();
-                            // Limit error message length
-                            if (errorMsg.Length > 500) errorMsg = errorMsg.Substring(0, 500) + "...";
+                            if (string.IsNullOrWhiteSpace(errorMsg)) errorMsg = "Unknown error.";
+                            if (errorMsg.Length > 800) errorMsg = errorMsg.Substring(0, 800) + "...";
 
                             splash.Topmost = false;
                             MessageBox.Show($"The application exited with an error (Code: {process.ExitCode}).\n\nDetails:\n{errorMsg}\n\nPlease contact Global Pozitif Support.",
                                             "Launch Error", MessageBoxButton.OK, MessageBoxImage.Error);
                         }
+                        // If ExitCode is 0, it might be a launcher that exits successfully after spawning the main app.
                     }
 
+                    // Close splash screen on success or timeout
                     splash.Close();
                 }
             }
