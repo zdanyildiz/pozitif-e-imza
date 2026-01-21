@@ -1,0 +1,327 @@
+[20:34:03] Başlatma rutini tetiklendi.
+[20:34:03] Varlık dizini kontrol ediliyor: C:\Users\zdany\Projects\pozitif-e-imza\PozitifLauncher\bin\Debug\net6.0-windows\assets
+[20:34:03] Hedef JNLP: EFaturaWebSocket (2).jnlp
+[20:34:03] Java ortamı doğrulandı.
+[20:34:03] IcedTea Kütüphaneleri: C:\Users\zdany\Projects\pozitif-e-imza\PozitifLauncher\bin\Debug\net6.0-windows\assets\icedtea\share\icedtea-web
+[20:34:03] Yapılandırma dosyası güncellendi: C:\Users\zdany\.config\icedtea-web\deployment.properties
+[20:34:03] Komut hazırlandı. Java işlemi başlatılıyor...
+[20:34:03] PID: 10136 ile Java başlatıldı. Çıktılar bekleniyor...
+[20:34:03] [STDOUT] System is already following XDG .cache and .config specifications
+[20:34:03] [STDOUT] config: C:\Users\zdany\.config\icedtea-web file exists: true
+[20:34:03] [STDOUT] cache: C:\Users\zdany\.cache\icedtea-web file exists:true
+[20:34:03] [STDOUT] Ico provider registered correctly.
+[20:34:03] [STDOUT] Loading User level properties from: file:/C:/Users/zdany/.config/icedtea-web/deployment.properties
+[20:34:03] [STDOUT] WARNING: key deployment.system.cachedir has no value, setting to default value
+[20:34:04] [STDOUT] WARNING: key deployment.system.cachedir has no value, skipping
+[20:34:04] [STDOUT] Forcing of offline set to: false
+[20:34:04] [STDOUT] Starting security dialog thread
+[20:34:04] [STDOUT] Using firefox's profiles file: C:\Users\zdany\AppData\Roaming\Mozilla\Firefox\profiles.ini
+[20:34:04] [STDOUT] Found preferences file: C:\Users\zdany\AppData\Roaming\Mozilla\Firefox\Profiles/5ea5xrt7.default\prefs.js
+[20:34:04] [STDERR] java.io.FileNotFoundException: C:\Users\zdany\AppData\Roaming\Mozilla\Firefox\Profiles\5ea5xrt7.default\prefs.js (Sistem belirtilen dosyayı bulamıyor)
+[20:34:04] [STDOUT] Proceeding with jnlp
+[20:34:04] [STDERR] 	at java.io.FileInputStream.open0(Native Method)
+[20:34:04] [STDOUT] JNLP file location: C:\Users\zdany\OneDrive\Downloads\EFaturaWebSocket (2).jnlp
+[20:34:04] [STDERR] 	at java.io.FileInputStream.open(FileInputStream.java:195)
+[20:34:04] [STDOUT] Using MalformedXMLParser
+[20:34:04] [STDERR] 	at java.io.FileInputStream.<init>(FileInputStream.java:138)
+[20:34:04] [STDOUT] <?xml version="1.0" encoding="UTF-8"?>
+[20:34:04] [STDERR] 	at java.io.FileReader.<init>(FileReader.java:72)
+[20:34:04] [STDOUT] line: 2 <jnlp spec="0.2 1.0" codebase="https://ebelge.gib.gov.tr/EFaturaWebSocket/" href="EFaturaWebSocket.jnlp">
+[20:34:04] [STDERR] 	at net.sourceforge.jnlp.browser.FirefoxPreferencesParser.parse(FirefoxPreferencesParser.java:90)
+[20:34:04] [STDOUT] line: 3    <information>
+[20:34:04] [STDERR] 	at net.sourceforge.jnlp.browser.BrowserAwareProxySelector.parseBrowserPreferences(BrowserAwareProxySelector.java:153)
+[20:34:04] [STDOUT] line: 4       <title>EFatura Web Socket</title>
+[20:34:04] [STDERR] 	at net.sourceforge.jnlp.browser.BrowserAwareProxySelector.initFromBrowserConfig(BrowserAwareProxySelector.java:114)
+[20:34:04] [STDOUT] line: 5       <vendor>GELİR İDARESİ BAŞKANLIĞI</vendor>
+[20:34:04] [STDERR] 	at net.sourceforge.jnlp.browser.BrowserAwareProxySelector.initialize(BrowserAwareProxySelector.java:101)
+[20:34:04] [STDOUT] line: 6       <homepage href="/EFaturaWebSocket/"/>
+[20:34:04] [STDERR] 	at net.sourceforge.jnlp.runtime.JNLPRuntime.initialize(JNLPRuntime.java:293)
+[20:34:04] [STDOUT] line: 7       <description>EFatura Web Socket</description>
+[20:34:04] [STDERR] 	at net.sourceforge.jnlp.runtime.Boot.init(Boot.java:353)
+[20:34:04] [STDOUT] line: 8    </information>
+[20:34:04] [STDERR] 	at net.sourceforge.jnlp.runtime.JnlpBoot.run(JnlpBoot.java:58)
+[20:34:04] [STDOUT] line: 9    <security>
+[20:34:04] [STDERR] 	at net.sourceforge.jnlp.runtime.Boot.run(Boot.java:274)
+[20:34:04] [STDOUT] line: 10      <all-permissions/>
+[20:34:04] [STDERR] 	at net.sourceforge.jnlp.runtime.Boot.run(Boot.java:63)
+[20:34:04] [STDOUT] line: 11    </security>
+[20:34:04] [STDERR] 	at java.security.AccessController.doPrivileged(Native Method)
+[20:34:04] [STDOUT] line: 12    <resources>
+[20:34:04] [STDERR] 	at net.sourceforge.jnlp.runtime.Boot.main(Boot.java:214)
+[20:34:04] [STDOUT] line: 13 		<j2se
+[20:34:04] [STDERR] Unable to use Firefox's proxy settings. Using "DIRECT" as proxy type.
+[20:34:04] [STDOUT] line: 14          version="1.7+"
+[20:34:04] [STDERR] java.lang.NoClassDefFoundError: org/ccil/cowan/tagsoup/HTMLSchema
+[20:34:04] [STDOUT] line: 15          initial-heap-size="512m"
+[20:34:04] [STDERR] 	at net.sourceforge.jnlp.MalformedXMLParser.xmlizeInputStream(MalformedXMLParser.java:95)
+[20:34:04] [STDOUT] line: 16          max-heap-size="2048m"
+[20:34:04] [STDERR] 	at net.sourceforge.jnlp.MalformedXMLParser.getRootNode(MalformedXMLParser.java:78)
+[20:34:04] [STDOUT] line: 17          java-vm-args="
+[20:34:04] [STDERR] 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+[20:34:04] [STDOUT] line: 18             -XX:+UseG1GC
+[20:34:04] [STDERR] 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+[20:34:04] [STDOUT] line: 19             -XX:+HeapDumpOnOutOfMemoryError
+[20:34:04] [STDERR] 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+[20:34:04] [STDOUT] line: 20             -XX:HeapDumpPath=${user.home}/efatura-websocket-heapdump.hprof
+[20:34:04] [STDERR] 	at java.lang.reflect.Method.invoke(Method.java:498)
+[20:34:04] [STDOUT] line: 21             -Dfile.encoding=UTF-8
+[20:34:04] [STDERR] 	at net.sourceforge.jnlp.Parser.getRootNode(Parser.java:1380)
+[20:34:04] [STDOUT] line: 22          "/>
+[20:34:04] [STDERR] 	at net.sourceforge.jnlp.JNLPFile.parse(JNLPFile.java:867)
+[20:34:04] [STDOUT] line: 23 		<jar href="EfaturaWebSocket.jar"/>		
+[20:34:04] [STDERR] 	at net.sourceforge.jnlp.JNLPFile.<init>(JNLPFile.java:233)
+[20:34:04] [STDOUT] line: 24 		<jar href="lib/bcmail-jdk15to18-1.79.jar"/>
+[20:34:04] [STDERR] 	at net.sourceforge.jnlp.JNLPFile.<init>(JNLPFile.java:215)
+[20:34:04] [STDOUT] line: 25 		<jar href="lib/bcprov-jdk15to18-1.79.jar"/>
+[20:34:04] [STDERR] 	at net.sourceforge.jnlp.JNLPFile.<init>(JNLPFile.java:200)
+[20:34:04] [STDOUT] line: 26 		<jar href="lib/bcpkix-jdk15to18-1.79.jar"/>
+[20:34:04] [STDERR] 	at net.sourceforge.jnlp.JNLPFile.<init>(JNLPFile.java:186)
+[20:34:04] [STDOUT] line: 27 		<jar href="lib/bcutil-jdk15to18-1.79.jar"/>
+[20:34:04] [STDERR] 	at net.sourceforge.jnlp.Launcher.fromUrl(Launcher.java:453)
+[20:34:04] [STDOUT] line: 28 		<jar href="lib/CSSigner.jar"/>
+[20:34:04] [STDERR] 	at net.sourceforge.jnlp.Launcher.launch(Launcher.java:289)
+[20:34:04] [STDOUT] line: 29 		<jar href="lib/IAIKPKCS11Wrapper.jar"/>
+[20:34:04] [STDERR] 	at net.sourceforge.jnlp.runtime.JnlpBoot.run(JnlpBoot.java:67)
+[20:34:04] [STDOUT] line: 30 		<jar href="lib/jetty-all-9.0.4.v20130625.jar"/>	
+[20:34:04] [STDERR] 	at net.sourceforge.jnlp.runtime.Boot.run(Boot.java:274)
+[20:34:04] [STDOUT] line: 31 		<jar href="lib/openpdf-1.3.41.jar"/>
+[20:34:04] [STDERR] 	at net.sourceforge.jnlp.runtime.Boot.run(Boot.java:63)
+[20:34:04] [STDOUT] line: 32 		<jar href="lib/pades.jar"/>
+[20:34:04] [STDERR] 	at java.security.AccessController.doPrivileged(Native Method)
+[20:34:04] [STDOUT] line: 33 		<jar href="lib/servlet-api-3.1.jar"/>
+[20:34:04] [STDERR] 	at net.sourceforge.jnlp.runtime.Boot.main(Boot.java:214)
+[20:34:04] [STDOUT] line: 34 		<jar href="lib/serializer-2.7.2.jar"/>
+[20:34:04] [STDERR] Jars not ready to provide attribute Application-Name
+[20:34:04] [STDOUT] line: 35 		<jar href="lib/commons-codec-1.5.jar"/>
+[20:34:04] [STDERR] Finding best URL for: https://ebelge.gib.gov.tr/EFaturaWebSocket/EFaturaWebSocket.jnlp : DownloadOptions[use pack: false; use version: false]
+[20:34:04] [STDOUT] line: 36 		<jar href="lib/commons-logging-1.1.1.jar"/>
+[20:34:04] [STDERR] All possible urls for location=https://ebelge.gib.gov.tr/EFaturaWebSocket/EFaturaWebSocket.jnlp state=PRECONNECT CONNECTING PREDOWNLOAD PROCESSING : [https://ebelge.gib.gov.tr/EFaturaWebSocket/EFaturaWebSocket.jnlp, https://ebelge.gib.gov.tr/EFaturaWebSocket/EFaturaWebSocket.jnlp]
+[20:34:04] [STDOUT] line: 37 		<jar href="lib/xalan-2.7.2.jar"/>
+[20:34:04] [STDOUT] line: 38 		<jar href="lib/slf4j-api-2.0.9.jar"/>
+[20:34:04] [STDOUT] line: 39 		<jar href="lib/slf4j-simple-2.0.9.jar"/>
+[20:34:04] [STDOUT] line: 40    </resources>
+[20:34:04] [STDOUT] line: 41    <application-desc main-class="tr.com.cs.imz.websocket.ImzWebSocketMain">e-Fatura Web Socket</application-desc>
+[20:34:04] [STDOUT] line: 42 </jnlp>
+[20:34:04] [STDOUT] line: 43 
+[20:34:04] [STDOUT] Homepage: https://ebelge.gib.gov.tr/EFaturaWebSocket/
+[20:34:04] [STDOUT] Description: EFatura Web Socket
+[20:34:04] [STDOUT] Acceptable title tag found, contains: EFatura Web Socket
+[20:34:04] [STDOUT] Acceptable vendor tag found, contains: GELİR İDARESİ BAŞKANLIĞI
+[20:34:04] [STDOUT] good - your JRE - 1.8.0_482 - match requested JRE - 1.7+
+[20:34:04] [STDOUT] Connecting https://ebelge.gib.gov.tr/EFaturaWebSocket/EFaturaWebSocket.jnlp
+[20:34:04] [STDOUT] Adding sun.net.www.protocol.https.DelegateHttpsURLConnection:https://ebelge.gib.gov.tr/EFaturaWebSocket/EFaturaWebSocket.jnlp
+[20:34:04] [STDOUT] done https://ebelge.gib.gov.tr/EFaturaWebSocket/EFaturaWebSocket.jnlp
+[20:34:04] [STDOUT] Selecting proxy for: https://ebelge.gib.gov.tr/EFaturaWebSocket/EFaturaWebSocket.jnlp
+[20:34:04] [STDOUT] Browser selected proxies: [DIRECT]
+[20:34:04] [STDOUT] Selected proxies: [DIRECT]
+[20:34:04] [STDOUT] Selecting proxy for: socket://ebelge.gib.gov.tr:443
+[20:34:04] [STDOUT] Browser selected proxies: [DIRECT]
+[20:34:04] [STDOUT] Selected proxies: [DIRECT]
+[20:34:05] [STDOUT] Key : Accept-Ranges ,Value : [bytes]
+[20:34:05] [STDOUT] Key : null ,Value : [HTTP/1.1 200 OK]
+[20:34:05] [STDERR] best url for location=https://ebelge.gib.gov.tr/EFaturaWebSocket/EFaturaWebSocket.jnlp state=PRECONNECT CONNECTING PREDOWNLOAD PROCESSING is https://ebelge.gib.gov.tr/EFaturaWebSocket/EFaturaWebSocket.jnlp by HEAD
+[20:34:05] [STDOUT] Key : Server ,Value : [GIB]
+[20:34:05] [STDOUT] Key : nnCoection ,Value : [close]
+[20:34:05] [STDOUT] Key : ETag ,Value : ["639-6473e54c30581"]
+[20:34:05] [STDOUT] Key : Last-Modified ,Value : [Wed, 31 Dec 2025 12:08:15 GMT]
+[20:34:05] [STDOUT] Key : Content-Length ,Value : [1593]
+[20:34:05] [STDOUT] Key : Date ,Value : [Wed, 21 Jan 2026 17:34:06 GMT]
+[20:34:05] [STDOUT] Key : Content-Type ,Value : [application/x-java-jnlp-file]
+[20:34:05] [STDOUT] Disconnecting sun.net.www.protocol.https.DelegateHttpsURLConnection:https://ebelge.gib.gov.tr/EFaturaWebSocket/EFaturaWebSocket.jnlp
+[20:34:05] [STDOUT] Removed sun.net.www.protocol.https.DelegateHttpsURLConnection:https://ebelge.gib.gov.tr/EFaturaWebSocket/EFaturaWebSocket.jnlp
+[20:34:05] [STDOUT] Connecting https://ebelge.gib.gov.tr/EFaturaWebSocket/EFaturaWebSocket.jnlp
+[20:34:05] [STDOUT] Adding sun.net.www.protocol.https.DelegateHttpsURLConnection:https://ebelge.gib.gov.tr/EFaturaWebSocket/EFaturaWebSocket.jnlp
+[20:34:05] [STDOUT] done https://ebelge.gib.gov.tr/EFaturaWebSocket/EFaturaWebSocket.jnlp
+[20:34:05] [STDERR] UNIQUEKEY=1769016845046-511707150-file:/C:/Users/zdany/OneDrive/Downloads/EFaturaWebSocket (2).jnlp
+[20:34:05] [STDOUT] isCached: remote:1593 cached:1593
+[20:34:05] [STDERR] java.lang.NoClassDefFoundError: org/ccil/cowan/tagsoup/HTMLSchema
+[20:34:05] [STDOUT] isCurrent:isCached true
+[20:34:05] [STDERR] 	at net.sourceforge.jnlp.MalformedXMLParser.xmlizeInputStream(MalformedXMLParser.java:95)
+[20:34:05] [STDOUT] isCurrent:lastModified cache:1767182895000 actual:1767182895000
+[20:34:05] [STDERR] 	at net.sourceforge.jnlp.MalformedXMLParser.getRootNode(MalformedXMLParser.java:78)
+[20:34:05] [STDOUT] isCurrent: https://ebelge.gib.gov.tr/EFaturaWebSocket/EFaturaWebSocket.jnlp = true
+[20:34:05] [STDERR] 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+[20:34:05] [STDOUT] Disconnecting sun.net.www.protocol.https.DelegateHttpsURLConnection:https://ebelge.gib.gov.tr/EFaturaWebSocket/EFaturaWebSocket.jnlp
+[20:34:05] [STDERR] 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+[20:34:05] [STDOUT] Removed sun.net.www.protocol.https.DelegateHttpsURLConnection:https://ebelge.gib.gov.tr/EFaturaWebSocket/EFaturaWebSocket.jnlp
+[20:34:05] [STDERR] 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+[20:34:05] [STDOUT] Using MalformedXMLParser
+[20:34:05] [STDERR] 	at java.lang.reflect.Method.invoke(Method.java:498)
+[20:34:05] [STDOUT] <?xml version="1.0" encoding="UTF-8"?>
+[20:34:05] [STDERR] 	at net.sourceforge.jnlp.Parser.getRootNode(Parser.java:1380)
+[20:34:05] [STDOUT] line: 2 <jnlp spec="0.2 1.0" codebase="https://ebelge.gib.gov.tr/EFaturaWebSocket/" href="EFaturaWebSocket.jnlp">
+[20:34:05] [STDERR] 	at net.sourceforge.jnlp.JNLPFile.parse(JNLPFile.java:867)
+[20:34:05] [STDOUT] line: 3    <information>
+[20:34:05] [STDERR] 	at net.sourceforge.jnlp.JNLPFile.<init>(JNLPFile.java:233)
+[20:34:05] [STDOUT] line: 4       <title>EFatura Web Socket</title>
+[20:34:05] [STDERR] 	at net.sourceforge.jnlp.JNLPFile.<init>(JNLPFile.java:215)
+[20:34:05] [STDOUT] line: 5       <vendor>GELİR İDARESİ BAŞKANLIĞI</vendor>
+[20:34:05] [STDERR] 	at net.sourceforge.jnlp.JNLPFile.<init>(JNLPFile.java:200)
+[20:34:05] [STDOUT] line: 6       <homepage href="/EFaturaWebSocket/"/>
+[20:34:05] [STDERR] 	at net.sourceforge.jnlp.JNLPFile.<init>(JNLPFile.java:186)
+[20:34:05] [STDOUT] line: 7       <description>EFatura Web Socket</description>
+[20:34:05] [STDERR] 	at net.sourceforge.jnlp.Launcher.fromUrl(Launcher.java:476)
+[20:34:05] [STDOUT] line: 8    </information>
+[20:34:05] [STDERR] 	at net.sourceforge.jnlp.Launcher.launch(Launcher.java:289)
+[20:34:05] [STDOUT] line: 9    <security>
+[20:34:05] [STDERR] 	at net.sourceforge.jnlp.runtime.JnlpBoot.run(JnlpBoot.java:67)
+[20:34:05] [STDOUT] line: 10      <all-permissions/>
+[20:34:05] [STDERR] 	at net.sourceforge.jnlp.runtime.Boot.run(Boot.java:274)
+[20:34:05] [STDOUT] line: 11    </security>
+[20:34:05] [STDERR] 	at net.sourceforge.jnlp.runtime.Boot.run(Boot.java:63)
+[20:34:05] [STDOUT] line: 12    <resources>
+[20:34:05] [STDERR] 	at java.security.AccessController.doPrivileged(Native Method)
+[20:34:05] [STDOUT] line: 13 		<j2se
+[20:34:05] [STDERR] 	at net.sourceforge.jnlp.runtime.Boot.main(Boot.java:214)
+[20:34:05] [STDOUT] line: 14          version="1.7+"
+[20:34:05] [STDERR] Jars not ready to provide attribute Application-Name
+[20:34:05] [STDOUT] line: 15          initial-heap-size="512m"
+[20:34:05] [STDERR] UNIQUEKEY=1769016845054-1435155836-https://ebelge.gib.gov.tr/EFaturaWebSocket/EFaturaWebSocket.jnlp
+[20:34:05] [STDOUT] line: 16          max-heap-size="2048m"
+[20:34:05] [STDERR] Jars not ready to provide attribute Application-Name
+[20:34:05] [STDOUT] line: 17          java-vm-args="
+[20:34:05] [STDERR] Jars not ready to provide attribute Application-Name
+[20:34:05] [STDOUT] line: 18             -XX:+UseG1GC
+[20:34:05] [STDERR] call privileged method: checkSingleInstanceRunning
+[20:34:05] [STDOUT] line: 19             -XX:+HeapDumpOnOutOfMemoryError
+[20:34:05] [STDERR]            arg: net.sourceforge.jnlp.JNLPFile@5f97e4
+[20:34:05] [STDOUT] line: 20             -XX:HeapDumpPath=${user.home}/efatura-websocket-heapdump.hprof
+[20:34:05] [STDERR]         result: null
+[20:34:05] [STDOUT] line: 21             -Dfile.encoding=UTF-8
+[20:34:05] [STDOUT] line: 22          "/>
+[20:34:05] [STDOUT] line: 23 		<jar href="EfaturaWebSocket.jar"/>		
+[20:34:05] [STDOUT] line: 24 		<jar href="lib/bcmail-jdk15to18-1.79.jar"/>
+[20:34:05] [STDOUT] line: 25 		<jar href="lib/bcprov-jdk15to18-1.79.jar"/>
+[20:34:05] [STDOUT] line: 26 		<jar href="lib/bcpkix-jdk15to18-1.79.jar"/>
+[20:34:05] [STDOUT] line: 27 		<jar href="lib/bcutil-jdk15to18-1.79.jar"/>
+[20:34:05] [STDOUT] line: 28 		<jar href="lib/CSSigner.jar"/>
+[20:34:05] [STDOUT] line: 29 		<jar href="lib/IAIKPKCS11Wrapper.jar"/>
+[20:34:05] [STDOUT] line: 30 		<jar href="lib/jetty-all-9.0.4.v20130625.jar"/>	
+[20:34:05] [STDOUT] line: 31 		<jar href="lib/openpdf-1.3.41.jar"/>
+[20:34:05] [STDOUT] line: 32 		<jar href="lib/pades.jar"/>
+[20:34:05] [STDOUT] line: 33 		<jar href="lib/servlet-api-3.1.jar"/>
+[20:34:05] [STDOUT] line: 34 		<jar href="lib/serializer-2.7.2.jar"/>
+[20:34:05] [STDOUT] line: 35 		<jar href="lib/commons-codec-1.5.jar"/>
+[20:34:05] [STDOUT] line: 36 		<jar href="lib/commons-logging-1.1.1.jar"/>
+[20:34:05] [STDOUT] line: 37 		<jar href="lib/xalan-2.7.2.jar"/>
+[20:34:05] [STDOUT] line: 38 		<jar href="lib/slf4j-api-2.0.9.jar"/>
+[20:34:05] [STDOUT] line: 39 		<jar href="lib/slf4j-simple-2.0.9.jar"/>
+[20:34:05] [STDOUT] line: 40    </resources>
+[20:34:05] [STDOUT] line: 41    <application-desc main-class="tr.com.cs.imz.websocket.ImzWebSocketMain">e-Fatura Web Socket</application-desc>
+[20:34:05] [STDOUT] line: 42 </jnlp>
+[20:34:05] [STDOUT] line: 43 
+[20:34:05] [STDOUT] Homepage: https://ebelge.gib.gov.tr/EFaturaWebSocket/
+[20:34:05] [STDOUT] Description: EFatura Web Socket
+[20:34:05] [STDOUT] Acceptable title tag found, contains: EFatura Web Socket
+[20:34:05] [STDOUT] Acceptable vendor tag found, contains: GELİR İDARESİ BAŞKANLIĞI
+[20:34:05] [STDOUT] good - your JRE - 1.8.0_482 - match requested JRE - 1.7+
+[20:34:05] [STDOUT] Acquired shared lock on C:\Users\zdany\AppData\Local\Temp\zdany\netx\locks\netx_running to indicate javaws is running
+[20:34:05] [STDOUT] Acceptable title tag found, contains: EFatura Web Socket
+[20:34:05] [STDOUT] Acceptable title tag found, contains: EFatura Web Socket
+[20:34:05] [STDOUT] itw-rust-debug: checking deployment.log.file in: C:\Users\zdany\.config\icedtea-web\deployment.properties
+[20:34:05] [STDOUT] itw-rust-debug: property not located or file inaccessible
+[20:34:05] [STDOUT] itw-rust-debug: checking deployment.log.file in: None
+[20:34:05] [STDOUT] itw-rust-debug: property not located or file inaccessible
+[20:34:05] [STDOUT] itw-rust-debug: checking deployment.log.file in: None
+[20:34:05] [STDOUT] itw-rust-debug: property not located or file inaccessible
+[20:34:05] [STDOUT] itw-rust-debug: checking deployment.log.file in: None
+[20:34:05] [STDOUT] itw-rust-debug: property not located or file inaccessible
+[20:34:05] [STDOUT] itw-rust-debug: checking deployment.log.stdstreams in: C:\Users\zdany\.config\icedtea-web\deployment.properties
+[20:34:05] [STDOUT] itw-rust-debug: property not located or file inaccessible
+[20:34:05] [STDOUT] itw-rust-debug: checking deployment.log.stdstreams in: None
+[20:34:05] [STDOUT] itw-rust-debug: property not located or file inaccessible
+[20:34:05] [STDOUT] itw-rust-debug: checking deployment.log.stdstreams in: None
+[20:34:05] [STDOUT] itw-rust-debug: property not located or file inaccessible
+[20:34:05] [STDOUT] itw-rust-debug: checking deployment.log.stdstreams in: None
+[20:34:05] [STDOUT] itw-rust-debug: property not located or file inaccessible
+[20:34:05] [STDOUT] itw-rust-debug: checking deployment.log.system in: C:\Users\zdany\.config\icedtea-web\deployment.properties
+[20:34:05] [STDOUT] itw-rust-debug: property not located or file inaccessible
+[20:34:05] [STDOUT] itw-rust-debug: checking deployment.log.system in: None
+[20:34:05] [STDOUT] itw-rust-debug: property not located or file inaccessible
+[20:34:05] [STDOUT] itw-rust-debug: checking deployment.log.system in: None
+[20:34:05] [STDOUT] itw-rust-debug: property not located or file inaccessible
+[20:34:05] [STDOUT] itw-rust-debug: checking deployment.log.system in: None
+[20:34:05] [STDOUT] itw-rust-debug: property not located or file inaccessible
+[20:34:05] [STDOUT] itw-rust-debug: checking deployment.user.logdir in: C:\Users\zdany\.config\icedtea-web\deployment.properties
+[20:34:05] [STDOUT] itw-rust-debug: property not located or file inaccessible
+[20:34:05] [STDOUT] itw-rust-debug: checking deployment.user.logdir in: None
+[20:34:05] [STDOUT] itw-rust-debug: property not located or file inaccessible
+[20:34:05] [STDOUT] itw-rust-debug: checking deployment.user.logdir in: None
+[20:34:05] [STDOUT] itw-rust-debug: property not located or file inaccessible
+[20:34:05] [STDOUT] itw-rust-debug: checking deployment.user.logdir in: None
+[20:34:05] [STDOUT] itw-rust-debug: property not located or file inaccessible
+[20:34:05] [STDOUT] C:\Users\zdany\Projects\pozitif-e-imza\PozitifLauncher\bin\Debug\net6.0-windows\assets\icedtea\bin\javaws.exe
+[20:34:05] [STDOUT] itw-rust-debug: itw mode: BUNDLED
+[20:34:05] [STDOUT] itw-rust-debug: trying jdk over properties (deployment.jre.dir)
+[20:34:05] [STDOUT] itw-rust-debug: checking deployment.jre.dir in: C:\Users\zdany\.config\icedtea-web\deployment.properties
+[20:34:05] [STDOUT] itw-rust-debug: located C:/Users/zdany/Projects/pozitif-e-imza/PozitifLauncher/bin/Debug/net6.0-windows/assets/jre8_32 in file C:\Users\zdany\.config\icedtea-web\deployment.properties
+[20:34:05] [STDOUT] itw-rust-debug: found and using
+[20:34:05] [STDOUT] selected jre: C:/Users/zdany/Projects/pozitif-e-imza/PozitifLauncher/bin/Debug/net6.0-windows/assets/jre8_32
+[20:34:05] [STDOUT] itw-rust-debug: trying C:\Users\zdany\Projects\pozitif-e-imza\PozitifLauncher\bin\Debug\net6.0-windows\assets\icedtea\share/icedtea-web\javaws.jar
+[20:34:05] [STDOUT] C:\Users\zdany\Projects\pozitif-e-imza\PozitifLauncher\bin\Debug\net6.0-windows\assets\icedtea\share/icedtea-web\javaws.jar
+[20:34:05] [STDOUT] itw-rust-debug: trying C:\Users\zdany\Projects\pozitif-e-imza\PozitifLauncher\bin\Debug\net6.0-windows\assets\icedtea\share/icedtea-web\plugin.jar
+[20:34:05] [STDOUT] C:\Users\zdany\Projects\pozitif-e-imza\PozitifLauncher\bin\Debug\net6.0-windows\assets\icedtea\share/icedtea-web\plugin.jar
+[20:34:05] [STDOUT] itw-rust-debug: trying C:\Users\zdany\Projects\pozitif-e-imza\PozitifLauncher\bin\Debug\net6.0-windows\assets\icedtea\share/icedtea-web\jsobject.jar
+[20:34:05] [STDOUT] C:\Users\zdany\Projects\pozitif-e-imza\PozitifLauncher\bin\Debug\net6.0-windows\assets\icedtea\share/icedtea-web\jsobject.jar
+[20:34:05] [STDOUT] itw-rust-debug: trying C:\Users\zdany\Projects\pozitif-e-imza\PozitifLauncher\bin\Debug\net6.0-windows\assets\icedtea\share/icedtea-web\js.jar
+[20:34:05] [STDOUT] itw-rust-debug: trying C:\Users\zdany\Projects\pozitif-e-imza\PozitifLauncher\bin\Debug\net6.0-windows\assets\icedtea\linux-deps-runtime\js.jar
+[20:34:05] [STDOUT] itw-rust-debug: trying C:\Users\zdany\Projects\pozitif-e-imza\PozitifLauncher\bin\Debug\net6.0-windows\assets\icedtea\win-deps-runtime\js.jar
+[20:34:05] [STDOUT] C:\Users\zdany\Projects\pozitif-e-imza\PozitifLauncher\bin\Debug\net6.0-windows\assets\icedtea\win-deps-runtime\js.jar
+[20:34:05] [STDOUT] itw-rust-debug: trying C:\Users\zdany\Projects\pozitif-e-imza\PozitifLauncher\bin\Debug\net6.0-windows\assets\icedtea\share/icedtea-web\tagsoup.jar
+[20:34:05] [STDOUT] itw-rust-debug: trying C:\Users\zdany\Projects\pozitif-e-imza\PozitifLauncher\bin\Debug\net6.0-windows\assets\icedtea\linux-deps-runtime\tagsoup.jar
+[20:34:05] [STDOUT] itw-rust-debug: trying C:\Users\zdany\Projects\pozitif-e-imza\PozitifLauncher\bin\Debug\net6.0-windows\assets\icedtea\win-deps-runtime\tagsoup.jar
+[20:34:05] [STDOUT] C:\Users\zdany\Projects\pozitif-e-imza\PozitifLauncher\bin\Debug\net6.0-windows\assets\icedtea\win-deps-runtime\tagsoup.jar
+[20:34:05] [STDOUT] itw-rust-debug: trying C:\Users\zdany\Projects\pozitif-e-imza\PozitifLauncher\bin\Debug\net6.0-windows\assets\icedtea\share/icedtea-web\mslinks.jar
+[20:34:05] [STDOUT] itw-rust-debug: trying C:\Users\zdany\Projects\pozitif-e-imza\PozitifLauncher\bin\Debug\net6.0-windows\assets\icedtea\linux-deps-runtime\mslinks.jar
+[20:34:05] [STDOUT] itw-rust-debug: trying C:\Users\zdany\Projects\pozitif-e-imza\PozitifLauncher\bin\Debug\net6.0-windows\assets\icedtea\win-deps-runtime\mslinks.jar
+[20:34:05] [STDOUT] C:\Users\zdany\Projects\pozitif-e-imza\PozitifLauncher\bin\Debug\net6.0-windows\assets\icedtea\win-deps-runtime\mslinks.jar
+[20:34:05] [STDOUT] itw-rust-debug: checking deployment.launcher.rust.bootcp.remove in: C:\Users\zdany\.config\icedtea-web\deployment.properties
+[20:34:05] [STDOUT] itw-rust-debug: property not located or file inaccessible
+[20:34:05] [STDOUT] itw-rust-debug: checking deployment.launcher.rust.bootcp.remove in: None
+[20:34:05] [STDOUT] itw-rust-debug: property not located or file inaccessible
+[20:34:05] [STDOUT] itw-rust-debug: checking deployment.launcher.rust.bootcp.remove in: None
+[20:34:05] [STDOUT] itw-rust-debug: property not located or file inaccessible
+[20:34:05] [STDOUT] itw-rust-debug: checking deployment.launcher.rust.bootcp.remove in: None
+[20:34:05] [STDOUT] itw-rust-debug: property not located or file inaccessible
+[20:34:05] [STDOUT] itw-rust-debug: checking deployment.launcher.rust.bootcp.add in: C:\Users\zdany\.config\icedtea-web\deployment.properties
+[20:34:05] [STDOUT] itw-rust-debug: property not located or file inaccessible
+[20:34:05] [STDOUT] itw-rust-debug: checking deployment.launcher.rust.bootcp.add in: None
+[20:34:05] [STDOUT] itw-rust-debug: property not located or file inaccessible
+[20:34:05] [STDOUT] itw-rust-debug: checking deployment.launcher.rust.bootcp.add in: None
+[20:34:05] [STDOUT] itw-rust-debug: property not located or file inaccessible
+[20:34:05] [STDOUT] itw-rust-debug: checking deployment.launcher.rust.bootcp.add in: None
+[20:34:05] [STDOUT] itw-rust-debug: property not located or file inaccessible
+[20:34:05] [STDOUT] itw-rust-debug: checking deployment.launcher.rust.cp.remove in: C:\Users\zdany\.config\icedtea-web\deployment.properties
+[20:34:05] [STDOUT] itw-rust-debug: property not located or file inaccessible
+[20:34:05] [STDOUT] itw-rust-debug: checking deployment.launcher.rust.cp.remove in: None
+[20:34:05] [STDOUT] itw-rust-debug: property not located or file inaccessible
+[20:34:05] [STDOUT] itw-rust-debug: checking deployment.launcher.rust.cp.remove in: None
+[20:34:05] [STDOUT] itw-rust-debug: property not located or file inaccessible
+[20:34:05] [STDOUT] itw-rust-debug: checking deployment.launcher.rust.cp.remove in: None
+[20:34:05] [STDOUT] itw-rust-debug: property not located or file inaccessible
+[20:34:05] [STDOUT] itw-rust-debug: checking deployment.launcher.rust.cp.add in: C:\Users\zdany\.config\icedtea-web\deployment.properties
+[20:34:05] [STDOUT] itw-rust-debug: property not located or file inaccessible
+[20:34:05] [STDOUT] itw-rust-debug: checking deployment.launcher.rust.cp.add in: None
+[20:34:05] [STDOUT] itw-rust-debug: property not located or file inaccessible
+[20:34:05] [STDOUT] itw-rust-debug: checking deployment.launcher.rust.cp.add in: None
+[20:34:05] [STDOUT] itw-rust-debug: property not located or file inaccessible
+[20:34:05] [STDOUT] itw-rust-debug: checking deployment.launcher.rust.cp.add in: None
+[20:34:05] [STDOUT] itw-rust-debug: property not located or file inaccessible
+[20:34:05] [STDOUT] itw-rust-debug: exemplar boot classpath: -Xbootclasspath/a:D:/a/IcedTea-Web/IcedTea-Web/icedtea-web-image/share/icedtea-web/javaws.jar;D:/a/IcedTea-Web/IcedTea-Web/icedtea-web-image/share/icedtea-web/plugin.jar;D:/a/IcedTea-Web/IcedTea-Web/icedtea-web-image/share/icedtea-web/jsobject.jar;C:/cygwin64/usr/share/java/js.jar;C:/cygwin64/usr/share/java/tagsoup.jar;C:/cygwin64/usr/share/java/mslinks.jar
+[20:34:05] [STDOUT] itw-rust-debug: used boot classpath: -Xbootclasspath/a:C:\Users\zdany\Projects\pozitif-e-imza\PozitifLauncher\bin\Debug\net6.0-windows\assets\icedtea\share/icedtea-web\javaws.jar;C:\Users\zdany\Projects\pozitif-e-imza\PozitifLauncher\bin\Debug\net6.0-windows\assets\icedtea\share/icedtea-web\plugin.jar;C:\Users\zdany\Projects\pozitif-e-imza\PozitifLauncher\bin\Debug\net6.0-windows\assets\icedtea\share/icedtea-web\jsobject.jar;C:\Users\zdany\Projects\pozitif-e-imza\PozitifLauncher\bin\Debug\net6.0-windows\assets\icedtea\win-deps-runtime\js.jar;C:\Users\zdany\Projects\pozitif-e-imza\PozitifLauncher\bin\Debug\net6.0-windows\assets\icedtea\win-deps-runtime\tagsoup.jar;C:\Users\zdany\Projects\pozitif-e-imza\PozitifLauncher\bin\Debug\net6.0-windows\assets\icedtea\win-deps-runtime\mslinks.jar;C:/Users/zdany/Projects/pozitif-e-imza/PozitifLauncher/bin/Debug/net6.0-windows/assets/jre8_32\lib\ext\nashorn.jar;
+[20:34:05] [STDOUT] itw-rust-debug: used classpath: C:/Users/zdany/Projects/pozitif-e-imza/PozitifLauncher/bin/Debug/net6.0-windows/assets/jre8_32\lib\rt.jar;C:/Users/zdany/Projects/pozitif-e-imza/PozitifLauncher/bin/Debug/net6.0-windows/assets/jre8_32\lib\ext\jfxrt.jar;
+[20:34:05] [STDOUT] itw-rust-debug: expected name: javaws
+[20:34:05] [STDOUT] itw-rust-debug: current name: javaws.exe
+[20:34:05] [STDOUT] itw-rust-debug: installed bin: D:/a/IcedTea-Web/IcedTea-Web/icedtea-web-image/bin/javaws
+[20:34:05] [STDOUT] itw-rust-debug: current bin: C:\Users\zdany\Projects\pozitif-e-imza\PozitifLauncher\bin\Debug\net6.0-windows\assets\icedtea\bin\javaws.exe
+[20:34:05] [STDOUT] itw-rust-debug: trying C:\Users\zdany\Projects\pozitif-e-imza\PozitifLauncher\bin\Debug\net6.0-windows\assets\icedtea\share/icedtea-web\javaws_splash.png
+[20:34:05] [STDOUT] C:\Users\zdany\Projects\pozitif-e-imza\PozitifLauncher\bin\Debug\net6.0-windows\assets\icedtea\share/icedtea-web\javaws_splash.png
+[20:34:05] [STDOUT] itw-rust-debug: command "C:/Users/zdany/Projects/pozitif-e-imza/PozitifLauncher/bin/Debug/net6.0-windows/assets/jre8_32\\bin\\java" "-version"
+[20:34:05] [STDOUT] itw-rust-debug: detected jdk 8
+[20:34:05] [STDOUT] itw-rust-debug: non-modular jdk
+[20:34:05] [STDOUT] itw-rust-debug: command "C:/Users/zdany/Projects/pozitif-e-imza/PozitifLauncher/bin/Debug/net6.0-windows/assets/jre8_32\\bin\\java" "-Xms512m" "-Xmx2048m" "-splash:C:\\Users\\zdany\\Projects\\pozitif-e-imza\\PozitifLauncher\\bin\\Debug\\net6.0-windows\\assets\\icedtea\\share/icedtea-web\\javaws_splash.png" "-Xbootclasspath/a:C:\\Users\\zdany\\Projects\\pozitif-e-imza\\PozitifLauncher\\bin\\Debug\\net6.0-windows\\assets\\icedtea\\share/icedtea-web\\javaws.jar;C:\\Users\\zdany\\Projects\\pozitif-e-imza\\PozitifLauncher\\bin\\Debug\\net6.0-windows\\assets\\icedtea\\share/icedtea-web\\plugin.jar;C:\\Users\\zdany\\Projects\\pozitif-e-imza\\PozitifLauncher\\bin\\Debug\\net6.0-windows\\assets\\icedtea\\share/icedtea-web\\jsobject.jar;C:\\Users\\zdany\\Projects\\pozitif-e-imza\\PozitifLauncher\\bin\\Debug\\net6.0-windows\\assets\\icedtea\\win-deps-runtime\\js.jar;C:\\Users\\zdany\\Projects\\pozitif-e-imza\\PozitifLauncher\\bin\\Debug\\net6.0-windows\\assets\\icedtea\\win-deps-runtime\\tagsoup.jar;C:\\Users\\zdany\\Projects\\pozitif-e-imza\\PozitifLauncher\\bin\\Debug\\net6.0-windows\\assets\\icedtea\\win-deps-runtime\\mslinks.jar;C:/Users/zdany/Projects/pozitif-e-imza/PozitifLauncher/bin/Debug/net6.0-windows/assets/jre8_32\\lib\\ext\\nashorn.jar;" "-classpath" "C:/Users/zdany/Projects/pozitif-e-imza/PozitifLauncher/bin/Debug/net6.0-windows/assets/jre8_32\\lib\\rt.jar;C:/Users/zdany/Projects/pozitif-e-imza/PozitifLauncher/bin/Debug/net6.0-windows/assets/jre8_32\\lib\\ext\\jfxrt.jar;" "-Dicedtea-web.bin.name=javaws.exe" "-Dicedtea-web.bin.location=C:\\Users\\zdany\\Projects\\pozitif-e-imza\\PozitifLauncher\\bin\\Debug\\net6.0-windows\\assets\\icedtea\\bin\\javaws.exe" "net.sourceforge.jnlp.runtime.Boot" "-Xnofork" "-Xtrustall" "-verbose" "C:\\Users\\zdany\\OneDrive\\Downloads\\EFaturaWebSocket (2).jnlp"
+[20:34:05] [STDOUT] Error occurred during initialization of VM
+[20:34:05] [STDOUT] Could not reserve enough space for 2097152KB object heap
+[20:34:06] [STDOUT] Release shared lock on C:\Users\zdany\AppData\Local\Temp\zdany\netx\locks\netx_running
+[20:34:06] [STDOUT] No other instances of javaws are running
+[20:34:06] İşlem sonlandı. Çıkış Kodu: 0
