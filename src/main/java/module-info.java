@@ -2,10 +2,12 @@ module com.globalpozitif.giblauncher {
     requires javafx.controls;
     requires javafx.fxml;
     requires org.slf4j;
+    requires com.fasterxml.jackson.core;
     requires com.fasterxml.jackson.databind;
     requires com.fasterxml.jackson.dataformat.xml;
     requires com.fasterxml.jackson.annotation;
-    requires org.apache.hc.client5.http;
+    requires org.apache.httpcomponents.client5.httpclient5;
+    requires org.apache.httpcomponents.core5.httpcore5;
     requires java.sql;
     requires org.xerial.sqlitejdbc;
 
