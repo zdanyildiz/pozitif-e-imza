@@ -28,3 +28,11 @@ Desktop.ini
 *.log
 *.tmp
 sample.jnlp
+
+# Build & Run Artifacts
+.jdk/
+setup_output/
+build_log.txt
+build_log_utf8.txt
+RunApp.bat
+BuildExe.bat

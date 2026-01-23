@@ -21,7 +21,7 @@ import java.util.prefs.Preferences;
 
 public class AuthService {
     private static final Logger logger = LoggerFactory.getLogger(AuthService.class);
-    private static final String API_URL = "https://eimza.globalpozitif.com.tr/?/webservice/member/post/checkLastOrderByEmailAndPassword";
+    private static final String API_URL = "https://e-imza.globalpozitif.com.tr/?/webservice/member/post/checkLastOrderByEmailAndPassword";
     private static final String PREF_NODE_NAME = "com.globalpozitif.giblauncher";
     private static final String PREF_COMPUTER_ID_KEY = "computerId";
 

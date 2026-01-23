@@ -99,6 +99,7 @@ src/
 
 * [x] **v0.1 (MVP):** JNLP Parse etme ve JAR'ları indirme.
 * [x] **v0.5:** ProcessBuilder ile uygulamayı ayağa kaldırma.
+* [x] **v0.6:** Kullanıcı Giriş Ekranı (Login) ve API Entegrasyonu.
 * [ ] **v1.0:** `jpackage` ile .exe üretimi ve Release.
 
 ---
