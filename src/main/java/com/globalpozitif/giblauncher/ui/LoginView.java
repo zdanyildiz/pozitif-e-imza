@@ -2,6 +2,7 @@ package com.globalpozitif.giblauncher.ui;
 
 import com.globalpozitif.giblauncher.core.model.LoginResponse;
 import com.globalpozitif.giblauncher.core.service.AuthService;
+import com.globalpozitif.giblauncher.core.service.CredentialManager;
 import javafx.concurrent.Task;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -114,6 +115,10 @@ public class LoginView {
                 passwordField.setDisable(false);
 
                 if ("success".equals(response.getStatus())) {
+                    // Beni hatırla özelliği: Bilgileri şifreli olarak kaydet
+                    CredentialManager credManager = new CredentialManager();
+                    credManager.saveCredentials(email, password);
+
                     messageLabel.setTextFill(Color.GREEN);
                     messageLabel.setText("Giriş başarılı! Yönlendiriliyorsunuz...");
                     onSuccess.accept(response);
@@ -137,7 +142,8 @@ public class LoginView {
         });
 
         // VBox sıralamasını güncelle: Logo en üstte, Link en altta
-        VBox root = new VBox(15, logoView, titleLabel, emailField, passwordField, loginButton, announcementsLink, progressIndicator, messageLabel);
+        VBox root = new VBox(15, logoView, titleLabel, emailField, passwordField, loginButton, announcementsLink,
+                progressIndicator, messageLabel);
         root.setAlignment(Pos.CENTER);
         root.setPadding(new Insets(30));
         root.setStyle("-fx-background-color: white;");

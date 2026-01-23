@@ -3,6 +3,9 @@ package com.globalpozitif.giblauncher;
 import com.globalpozitif.giblauncher.core.JnlpParser;
 import com.globalpozitif.giblauncher.core.model.Jar;
 import com.globalpozitif.giblauncher.core.model.JnlpDoc;
+import com.globalpozitif.giblauncher.core.model.LoginResponse;
+import com.globalpozitif.giblauncher.core.service.AuthService;
+import com.globalpozitif.giblauncher.core.service.CredentialManager;
 import com.globalpozitif.giblauncher.core.service.ProcessManager;
 import com.globalpozitif.giblauncher.core.service.ResourceDownloader;
 import com.globalpozitif.giblauncher.ui.LoginView;
@@ -50,12 +53,54 @@ public class Main extends Application {
             logger.warn("Pencere ikonu yuklenemedi: {}", e.getMessage());
         }
 
-        // Start with Login Screen
+        // Otomatik giriş kontrolü
+        CredentialManager credManager = new CredentialManager();
+        String[] savedCreds = credManager.loadCredentials();
+
+        if (savedCreds != null) {
+            String email = savedCreds[0];
+            String password = savedCreds[1];
+
+            logger.info("Otomatik giriş deneniyor: {}", email);
+
+            AuthService authService = new AuthService();
+            Task<LoginResponse> autoLoginTask = new Task<>() {
+                @Override
+                protected LoginResponse call() throws Exception {
+                    return authService.login(email, password);
+                }
+            };
+
+            autoLoginTask.setOnSucceeded(e -> {
+                LoginResponse response = autoLoginTask.getValue();
+                if ("success".equals(response.getStatus())) {
+                    logger.info("Otomatik giriş başarılı.");
+                    showMainLoader(primaryStage);
+                } else {
+                    logger.warn("Otomatik giriş başarısız: {}. Login ekranına yönlendiriliyor.", response.getMessage());
+                    credManager.deleteCredentials();
+                    showLogin(primaryStage);
+                }
+            });
+
+            autoLoginTask.setOnFailed(e -> {
+                logger.error("Otomatik giriş sırasında hata oluştu. Login ekranına geçiliyor.",
+                        autoLoginTask.getException());
+                showLogin(primaryStage);
+            });
+
+            new Thread(autoLoginTask).start();
+        } else {
+            showLogin(primaryStage);
+        }
+    }
+
+    private void showLogin(Stage stage) {
         LoginView loginView = new LoginView(loginResponse -> {
             logger.info("User logged in: {}", loginResponse.getUserInfo().getEmail());
-            showMainLoader(primaryStage);
+            showMainLoader(stage);
         });
-        loginView.show(primaryStage);
+        loginView.show(stage);
     }
 
     private void showMainLoader(Stage primaryStage) {
@@ -88,7 +133,7 @@ public class Main extends Application {
         root.setStyle("-fx-background-color: white;");
 
         primaryStage.setTitle("Pozitif E-İmza Başlatıcı");
-        primaryStage.setScene(new Scene(root, 450, 300)); // Boyutu biraz büyüttük logo için
+        primaryStage.setScene(new Scene(root, 450, 300));
         primaryStage.centerOnScreen();
 
         startOrchestration(statusLabel, progressBar, vBox);
@@ -122,21 +167,15 @@ public class Main extends Application {
                     for (int i = 0; i < total; i++) {
                         Jar jar = jars.get(i);
                         String href = jar.getHref();
-
-                        // URL building logic
                         String downloadUrl = href;
                         if (!downloadUrl.startsWith("http")) {
                             String base = codebase != null ? codebase : "";
-                            if (!base.endsWith("/") && !downloadUrl.startsWith("/")) {
+                            if (!base.endsWith("/") && !downloadUrl.startsWith("/"))
                                 base += "/";
-                            }
                             downloadUrl = base + downloadUrl;
                         }
-
-                        // Local path logic
                         String fileName = href.contains("/") ? href.substring(href.lastIndexOf("/") + 1) : href;
                         Path destination = cachePath.resolve(fileName);
-
                         downloader.downloadFile(downloadUrl, destination);
                         updateProgress(i + 1, total);
                     }
@@ -147,27 +186,15 @@ public class Main extends Application {
                 updateProgress(1.0, 1.0);
                 ProcessManager processManager = new ProcessManager();
                 ProcessBuilder pb = processManager.buildProcess(jnlpDoc, cachePath);
-
                 logger.info("Dış uygulama başlatılıyor...");
                 Process process = pb.start();
-
-                // Uygulamanın hemen çöküp çökmediğini kontrol etmek için kısa bir süre bekleyelim
                 Thread.sleep(3000);
 
                 if (!process.isAlive()) {
                     int exitCode = process.exitValue();
-                    logger.error("Dış uygulama başlatıldıktan hemen sonra sonlandı. Çıkış Kodu (Exit Code): {}", exitCode);
-                    
-                    // Standart hata çıktısını okumaya çalış (varsa)
-                    // Not: inheritIO() kullanıldığı için çıktılar konsola/loga zaten akıyor olmalı.
-                    
-                    throw new Exception("Uygulama başlatılamadı (Exit Code: " + exitCode + ").\n" +
-                            "Log dosyasını kontrol ediniz: " + System.getProperty("user.home") + "\\.giblauncher\\logs\\launcher.log");
-                } else {
-                     logger.info("Dış uygulama 3 saniye sonunda hala çalışıyor (PID: {}). Launcher görevi tamamladı.", process.pid());
+                    throw new Exception("Uygulama başlatılamadı (Exit Code: " + exitCode + ")");
                 }
 
-                // Uygulama hayattaysa veya başarıyla başladıysa launcher'ı kapat
                 logger.info("Dış uygulama başarıyla başlatıldı, launcher kapatılıyor.");
                 Platform.runLater(Platform::exit);
 
@@ -175,42 +202,32 @@ public class Main extends Application {
             }
         };
 
-        // Binding
         statusLabel.textProperty().bind(task.messageProperty());
         progressBar.progressProperty().bind(task.progressProperty());
 
-        // Error Handling
         task.setOnFailed(event -> {
             Throwable ex = task.getException();
             logger.error("Hata oluştu: ", ex);
-
-            // Unbind to set manual text
             statusLabel.textProperty().unbind();
             progressBar.progressProperty().unbind();
-
             statusLabel.setTextFill(Color.RED);
             statusLabel.setText("Hata: " + (ex != null ? ex.getMessage() : "Bilinmeyen hata"));
             progressBar.setProgress(0);
 
-            // Log açma ve Uygulamayı Kapat butonları ekle
             HBox buttonBox = new HBox(10);
             buttonBox.setAlignment(Pos.CENTER);
-
             Button openLogBtn = new Button("Log Dosyasını Aç");
             openLogBtn.setOnAction(e -> {
                 try {
                     File logFile = new File(System.getProperty("user.home") + "/.giblauncher/logs/launcher.log");
-                    if (logFile.exists() && Desktop.isDesktopSupported()) {
+                    if (logFile.exists() && Desktop.isDesktopSupported())
                         Desktop.getDesktop().open(logFile);
-                    }
                 } catch (Exception ex2) {
                     logger.error("Log dosyasi acilamadi", ex2);
                 }
             });
-
             Button closeBtn = new Button("Kapat");
             closeBtn.setOnAction(e -> Platform.exit());
-
             buttonBox.getChildren().addAll(openLogBtn, closeBtn);
             vBox.getChildren().add(buttonBox);
         });
