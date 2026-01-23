@@ -19,28 +19,34 @@ public class ProcessManager {
     public ProcessBuilder buildProcess(JnlpDoc jnlp, Path libraryPath) throws IOException {
         List<String> commands = new ArrayList<>();
 
-        // 1. Java Komutu Tespiti (En Garanti Yontem: Su an calisan Java'yi kullan)
-        String javaBin = ProcessHandle.current().info().command().orElse(null);
-
-        if (javaBin == null || !new File(javaBin).exists()) {
-            logger.warn("ProcessHandle üzerinden Java yolu bulunamadi, java.home denemesi yapiliyor...");
-            String javaHome = System.getProperty("java.home");
-            javaBin = javaHome + File.separator + "bin" + File.separator + "java.exe";
+        // 1. Java Komutu Tespiti
+        // jpackage ile paketlenmiş uygulamalarda java.home genellikle runtime klasörünü gösterir.
+        String javaHome = System.getProperty("java.home");
+        String javaBin = javaHome + File.separator + "bin" + File.separator + "java.exe";
+        
+        File javaFile = new File(javaBin);
+        boolean useSystemJava = false;
+        
+        // Eğer java.home altında bulunamazsa, çalışma dizinine (user.dir) göre runtime/bin kontrolü yap
+        if (!javaFile.exists()) {
+             logger.warn("Bundled java.exe bulunamadi: {}. Alternatif yol (runtime/bin) deneniyor...", javaBin);
+             String userDir = System.getProperty("user.dir");
+             javaBin = userDir + File.separator + "runtime" + File.separator + "bin" + File.separator + "java.exe";
+             javaFile = new File(javaBin);
         }
 
-        if (!new File(javaBin).exists()) {
-            // Son care: javaw denemesi
-            javaBin = javaBin.replace("java.exe", "javaw.exe");
+        // Eğer hala bulunamazsa, sistem PATH'indeki 'java' komutunu deneyelim
+        if (!javaFile.exists()) {
+            logger.warn("Bundled java.exe yerel dizinlerde bulunamadi. Sistem PATH uzerindeki 'java' komutu denenecek.");
+            useSystemJava = true;
         }
 
-        if (!new File(javaBin).exists()) {
-            logger.error("Kritik Hata: Java calistirilabilir dosyasi hiçbir yerde bulunamadi!");
-            throw new IOException(
-                    "Programin calismasi icin gereken Java motoru bulunamadi. Lutfen loglari kontrol edin.");
+        if (useSystemJava) {
+            commands.add("java");
+        } else {
+            logger.info("Secilen Java motoru: {}", javaFile.getAbsolutePath());
+            commands.add(javaFile.getAbsolutePath());
         }
-
-        logger.info("Secilen Java (Garantili): {}", javaBin);
-        commands.add(javaBin);
 
         // 2. VM Args
         if (jnlp.getResources() != null && jnlp.getResources().getJ2se() != null) {

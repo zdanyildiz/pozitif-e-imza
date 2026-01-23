@@ -21,6 +21,8 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 
 import java.awt.Desktop;
 import java.io.File;
@@ -38,9 +40,11 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         // Set Application Icon
         try {
-            InputStream iconStream = getClass().getResourceAsStream("/images/logo.png");
+            InputStream iconStream = getClass().getResourceAsStream("/images/appicon.png");
             if (iconStream != null) {
                 primaryStage.getIcons().add(new Image(iconStream));
+            } else {
+                logger.warn("Pencere ikonu bulunamadı: /images/appicon.png");
             }
         } catch (Exception e) {
             logger.warn("Pencere ikonu yuklenemedi: {}", e.getMessage());
@@ -55,6 +59,20 @@ public class Main extends Application {
     }
 
     private void showMainLoader(Stage primaryStage) {
+        // --- Logo Section ---
+        ImageView logoView = new ImageView();
+        try {
+            InputStream logoStream = getClass().getResourceAsStream("/images/logo.png");
+            if (logoStream != null) {
+                Image image = new Image(logoStream);
+                logoView.setImage(image);
+                logoView.setFitWidth(150);
+                logoView.setPreserveRatio(true);
+            }
+        } catch (Exception e) {
+            logger.warn("Logo yuklenemedi: {}", e.getMessage());
+        }
+
         Label statusLabel = new Label("Hazırlanıyor...");
         statusLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #333;");
 
@@ -62,21 +80,21 @@ public class Main extends Application {
         progressBar.setPrefWidth(350);
         progressBar.setStyle("-fx-accent: #2196F3;");
 
-        VBox vBox = new VBox(15, statusLabel, progressBar);
+        VBox vBox = new VBox(15, logoView, statusLabel, progressBar);
         vBox.setAlignment(Pos.CENTER);
-        vBox.setPadding(new Insets(20));
+        vBox.setPadding(new Insets(30));
 
         StackPane root = new StackPane(vBox);
         root.setStyle("-fx-background-color: white;");
 
         primaryStage.setTitle("Pozitif E-İmza Başlatıcı");
-        primaryStage.setScene(new Scene(root, 450, 200));
-        primaryStage.centerOnScreen(); // Re-center after resizing
+        primaryStage.setScene(new Scene(root, 450, 300)); // Boyutu biraz büyüttük logo için
+        primaryStage.centerOnScreen();
 
-        startOrchestration(statusLabel, progressBar);
+        startOrchestration(statusLabel, progressBar, vBox);
     }
 
-    private void startOrchestration(Label statusLabel, ProgressBar progressBar) {
+    private void startOrchestration(Label statusLabel, ProgressBar progressBar, VBox vBox) {
         Task<Void> task = new Task<>() {
             @Override
             protected Void call() throws Exception {
@@ -131,9 +149,26 @@ public class Main extends Application {
                 ProcessBuilder pb = processManager.buildProcess(jnlpDoc, cachePath);
 
                 logger.info("Dış uygulama başlatılıyor...");
-                pb.start();
+                Process process = pb.start();
 
-                // Step E (Finish)
+                // Uygulamanın hemen çöküp çökmediğini kontrol etmek için kısa bir süre bekleyelim
+                Thread.sleep(3000);
+
+                if (!process.isAlive()) {
+                    int exitCode = process.exitValue();
+                    logger.error("Dış uygulama başlatıldıktan hemen sonra sonlandı. Çıkış Kodu (Exit Code): {}", exitCode);
+                    
+                    // Standart hata çıktısını okumaya çalış (varsa)
+                    // Not: inheritIO() kullanıldığı için çıktılar konsola/loga zaten akıyor olmalı.
+                    
+                    throw new Exception("Uygulama başlatılamadı (Exit Code: " + exitCode + ").\n" +
+                            "Log dosyasını kontrol ediniz: " + System.getProperty("user.home") + "\\.giblauncher\\logs\\launcher.log");
+                } else {
+                     logger.info("Dış uygulama 3 saniye sonunda hala çalışıyor (PID: {}). Launcher görevi tamamladı.", process.pid());
+                }
+
+                // Uygulama hayattaysa veya başarıyla başladıysa launcher'ı kapat
+                logger.info("Dış uygulama başarıyla başlatıldı, launcher kapatılıyor.");
                 Platform.runLater(Platform::exit);
 
                 return null;
@@ -157,7 +192,10 @@ public class Main extends Application {
             statusLabel.setText("Hata: " + (ex != null ? ex.getMessage() : "Bilinmeyen hata"));
             progressBar.setProgress(0);
 
-            // Add log opening button
+            // Log açma ve Uygulamayı Kapat butonları ekle
+            HBox buttonBox = new HBox(10);
+            buttonBox.setAlignment(Pos.CENTER);
+
             Button openLogBtn = new Button("Log Dosyasını Aç");
             openLogBtn.setOnAction(e -> {
                 try {
@@ -169,7 +207,12 @@ public class Main extends Application {
                     logger.error("Log dosyasi acilamadi", ex2);
                 }
             });
-            ((VBox) statusLabel.getParent()).getChildren().add(openLogBtn);
+
+            Button closeBtn = new Button("Kapat");
+            closeBtn.setOnAction(e -> Platform.exit());
+
+            buttonBox.getChildren().addAll(openLogBtn, closeBtn);
+            vBox.getChildren().add(buttonBox);
         });
 
         Thread thread = new Thread(task);
