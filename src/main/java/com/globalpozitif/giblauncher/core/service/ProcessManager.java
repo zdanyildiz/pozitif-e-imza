@@ -19,12 +19,31 @@ public class ProcessManager {
     public ProcessBuilder buildProcess(JnlpDoc jnlp, Path libraryPath) throws IOException {
         List<String> commands = new ArrayList<>();
 
-        // 1. Java Komutu
+        // 1. Java Komutu Tespiti (Gömülü JRE içinde arama yapar)
         String javaHome = System.getProperty("java.home");
-        String javaBin = javaHome + File.separator + "bin" + File.separator + "java";
-        if (System.getProperty("os.name").toLowerCase().contains("win")) {
-            javaBin += ".exe";
+        String[] possibleRelativePaths = {
+                "bin" + File.separator + "java.exe",
+                "bin" + File.separator + "javaw.exe",
+                "java.exe",
+                "bin" + File.separator + "java"
+        };
+
+        File javaBinFile = null;
+        for (String relPath : possibleRelativePaths) {
+            File testFile = new File(javaHome, relPath);
+            if (testFile.exists()) {
+                javaBinFile = testFile;
+                break;
+            }
         }
+
+        if (javaBinFile == null) {
+            logger.error("Java calistirilabilir dosyasi bulunamadi! JAVA_HOME: {}", javaHome);
+            throw new IOException("Java calistirilabilir dosyasi bulunamadi (java.exe). Lutfen loglari kontrol edin.");
+        }
+
+        String javaBin = javaBinFile.getAbsolutePath();
+        logger.info("Secilen Java: {}", javaBin);
         commands.add(javaBin);
 
         // 2. VM Args

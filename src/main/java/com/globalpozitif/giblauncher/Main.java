@@ -12,6 +12,7 @@ import javafx.concurrent.Task;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.StackPane;
@@ -21,6 +22,7 @@ import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.awt.Desktop;
 import java.io.File;
 import java.net.URL;
 import java.nio.file.Path;
@@ -142,6 +144,20 @@ public class Main extends Application {
             statusLabel.setTextFill(Color.RED);
             statusLabel.setText("Hata: " + (ex != null ? ex.getMessage() : "Bilinmeyen hata"));
             progressBar.setProgress(0);
+
+            // Add log opening button
+            Button openLogBtn = new Button("Log Dosyasını Aç");
+            openLogBtn.setOnAction(e -> {
+                try {
+                    File logFile = new File(System.getProperty("user.home") + "/.giblauncher/logs/launcher.log");
+                    if (logFile.exists() && Desktop.isDesktopSupported()) {
+                        Desktop.getDesktop().open(logFile);
+                    }
+                } catch (Exception ex2) {
+                    logger.error("Log dosyasi acilamadi", ex2);
+                }
+            });
+            ((VBox) statusLabel.getParent()).getChildren().add(openLogBtn);
         });
 
         Thread thread = new Thread(task);
