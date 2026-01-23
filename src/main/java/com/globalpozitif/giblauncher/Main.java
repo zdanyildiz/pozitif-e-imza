@@ -24,7 +24,9 @@ import org.slf4j.LoggerFactory;
 
 import java.awt.Desktop;
 import java.io.File;
+import java.io.InputStream;
 import java.net.URL;
+import javafx.scene.image.Image;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -34,6 +36,16 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        // Set Application Icon
+        try {
+            InputStream iconStream = getClass().getResourceAsStream("/images/logo.png");
+            if (iconStream != null) {
+                primaryStage.getIcons().add(new Image(iconStream));
+            }
+        } catch (Exception e) {
+            logger.warn("Pencere ikonu yuklenemedi: {}", e.getMessage());
+        }
+
         // Start with Login Screen
         LoginView loginView = new LoginView(loginResponse -> {
             logger.info("User logged in: {}", loginResponse.getUserInfo().getEmail());

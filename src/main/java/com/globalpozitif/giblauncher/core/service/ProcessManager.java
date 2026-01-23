@@ -19,31 +19,27 @@ public class ProcessManager {
     public ProcessBuilder buildProcess(JnlpDoc jnlp, Path libraryPath) throws IOException {
         List<String> commands = new ArrayList<>();
 
-        // 1. Java Komutu Tespiti (Gömülü JRE içinde arama yapar)
-        String javaHome = System.getProperty("java.home");
-        String[] possibleRelativePaths = {
-                "bin" + File.separator + "java.exe",
-                "bin" + File.separator + "javaw.exe",
-                "java.exe",
-                "bin" + File.separator + "java"
-        };
+        // 1. Java Komutu Tespiti (En Garanti Yontem: Su an calisan Java'yi kullan)
+        String javaBin = ProcessHandle.current().info().command().orElse(null);
 
-        File javaBinFile = null;
-        for (String relPath : possibleRelativePaths) {
-            File testFile = new File(javaHome, relPath);
-            if (testFile.exists()) {
-                javaBinFile = testFile;
-                break;
-            }
+        if (javaBin == null || !new File(javaBin).exists()) {
+            logger.warn("ProcessHandle üzerinden Java yolu bulunamadi, java.home denemesi yapiliyor...");
+            String javaHome = System.getProperty("java.home");
+            javaBin = javaHome + File.separator + "bin" + File.separator + "java.exe";
         }
 
-        if (javaBinFile == null) {
-            logger.error("Java calistirilabilir dosyasi bulunamadi! JAVA_HOME: {}", javaHome);
-            throw new IOException("Java calistirilabilir dosyasi bulunamadi (java.exe). Lutfen loglari kontrol edin.");
+        if (!new File(javaBin).exists()) {
+            // Son care: javaw denemesi
+            javaBin = javaBin.replace("java.exe", "javaw.exe");
         }
 
-        String javaBin = javaBinFile.getAbsolutePath();
-        logger.info("Secilen Java: {}", javaBin);
+        if (!new File(javaBin).exists()) {
+            logger.error("Kritik Hata: Java calistirilabilir dosyasi hiçbir yerde bulunamadi!");
+            throw new IOException(
+                    "Programin calismasi icin gereken Java motoru bulunamadi. Lutfen loglari kontrol edin.");
+        }
+
+        logger.info("Secilen Java (Garantili): {}", javaBin);
         commands.add(javaBin);
 
         // 2. VM Args
