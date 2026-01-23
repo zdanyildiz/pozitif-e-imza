@@ -1,3 +1,0 @@
-package com.globalpozitif.giblauncher.security;
-
-public class Placeholder {}

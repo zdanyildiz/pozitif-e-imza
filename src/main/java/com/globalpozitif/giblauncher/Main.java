@@ -5,6 +5,7 @@ import com.globalpozitif.giblauncher.core.model.Jar;
 import com.globalpozitif.giblauncher.core.model.JnlpDoc;
 import com.globalpozitif.giblauncher.core.service.ProcessManager;
 import com.globalpozitif.giblauncher.core.service.ResourceDownloader;
+import com.globalpozitif.giblauncher.ui.LoginView;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -29,16 +30,21 @@ import java.util.List;
 public class Main extends Application {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
-    private Label statusLabel;
-    private ProgressBar progressBar;
-
     @Override
     public void start(Stage primaryStage) {
-        // 1. UI Design (JavaFX)
-        statusLabel = new Label("Hazırlanıyor...");
+        // Start with Login Screen
+        LoginView loginView = new LoginView(loginResponse -> {
+            logger.info("User logged in: {}", loginResponse.getUserInfo().getEmail());
+            showMainLoader(primaryStage);
+        });
+        loginView.show(primaryStage);
+    }
+
+    private void showMainLoader(Stage primaryStage) {
+        Label statusLabel = new Label("Hazırlanıyor...");
         statusLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #333;");
 
-        progressBar = new ProgressBar(0.0);
+        ProgressBar progressBar = new ProgressBar(0.0);
         progressBar.setPrefWidth(350);
         progressBar.setStyle("-fx-accent: #2196F3;");
 
@@ -51,14 +57,12 @@ public class Main extends Application {
 
         primaryStage.setTitle("Pozitif E-İmza Başlatıcı");
         primaryStage.setScene(new Scene(root, 450, 200));
-        primaryStage.setResizable(false);
-        primaryStage.show();
+        primaryStage.centerOnScreen(); // Re-center after resizing
 
-        // 2. Background Logic (Task<Void>)
-        startOrchestration();
+        startOrchestration(statusLabel, progressBar);
     }
 
-    private void startOrchestration() {
+    private void startOrchestration(Label statusLabel, ProgressBar progressBar) {
         Task<Void> task = new Task<>() {
             @Override
             protected Void call() throws Exception {

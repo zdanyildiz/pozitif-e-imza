@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jnlp spec="0.2 1.0" codebase="https://ebelge.gib.gov.tr/EFaturaWebSocket/" href="EFaturaWebSocket.jnlp">
+   <information>
+      <title>EFatura Web Socket</title>
+      <vendor>GELİR İDARESİ BAŞKANLIĞI</vendor>
+      <homepage href="/EFaturaWebSocket/"/>
+      <description>EFatura Web Socket</description>
+   </information>
+   <security>
+     <all-permissions/>
+   </security>
+   <resources>
+		<j2se
+         version="1.7+"
+         initial-heap-size="512m"
+         max-heap-size="2048m"
+         java-vm-args="
+            -XX:+UseG1GC
+            -XX:+HeapDumpOnOutOfMemoryError
+            -XX:HeapDumpPath=${user.home}/efatura-websocket-heapdump.hprof
+            -Dfile.encoding=UTF-8
+         "/>
+		<jar href="EfaturaWebSocket.jar"/>		
+		<jar href="lib/bcmail-jdk15to18-1.79.jar"/>
+		<jar href="lib/bcprov-jdk15to18-1.79.jar"/>
+		<jar href="lib/bcpkix-jdk15to18-1.79.jar"/>
+		<jar href="lib/bcutil-jdk15to18-1.79.jar"/>
+		<jar href="lib/CSSigner.jar"/>
+		<jar href="lib/IAIKPKCS11Wrapper.jar"/>
+		<jar href="lib/jetty-all-9.0.4.v20130625.jar"/>	
+		<jar href="lib/openpdf-1.3.41.jar"/>
+		<jar href="lib/pades.jar"/>
+		<jar href="lib/servlet-api-3.1.jar"/>
+		<jar href="lib/serializer-2.7.2.jar"/>
+		<jar href="lib/commons-codec-1.5.jar"/>
+		<jar href="lib/commons-logging-1.1.1.jar"/>
+		<jar href="lib/xalan-2.7.2.jar"/>
+		<jar href="lib/slf4j-api-2.0.9.jar"/>
+		<jar href="lib/slf4j-simple-2.0.9.jar"/>
+   </resources>
+   <application-desc main-class="tr.com.cs.imz.websocket.ImzWebSocketMain">e-Fatura Web Socket</application-desc>
+</jnlp>

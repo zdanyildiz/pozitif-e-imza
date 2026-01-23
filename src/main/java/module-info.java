@@ -8,8 +8,9 @@ module com.globalpozitif.giblauncher {
     requires com.fasterxml.jackson.annotation;
     requires org.apache.httpcomponents.client5.httpclient5;
     requires org.apache.httpcomponents.core5.httpcore5;
-    requires java.sql;
-    requires org.xerial.sqlitejdbc;
+
+    requires java.prefs;
+    requires java.desktop;
 
     opens com.globalpozitif.giblauncher to javafx.graphics, javafx.fxml;
     opens com.globalpozitif.giblauncher.core.model
@@ -20,5 +21,4 @@ module com.globalpozitif.giblauncher {
     exports com.globalpozitif.giblauncher.core;
     exports com.globalpozitif.giblauncher.core.model;
     exports com.globalpozitif.giblauncher.core.service;
-    exports com.globalpozitif.giblauncher.security;
 }
