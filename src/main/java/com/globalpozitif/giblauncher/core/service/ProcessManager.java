@@ -78,7 +78,17 @@ public class ProcessManager {
 
         ProcessBuilder pb = new ProcessBuilder(commands);
         pb.directory(libraryPath.toFile()); // Çalışma dizinini kütüphanelerin olduğu yer yapalım
-        pb.inheritIO(); // Çıktıları ana sürece aktar (debug için kullanışlı olabilir)
+
+        // inheritIO yerine dosyalara yönlendirerek alt sürecin ana sürece olan I/O bağımlılığını kesiyoruz
+        File logDir = new File(System.getProperty("user.home") + File.separator + ".giblauncher" + File.separator + "logs");
+        if (!logDir.exists()) {
+            logDir.mkdirs();
+        }
+        File outFile = new File(logDir, "process_out.log");
+        File errFile = new File(logDir, "process_err.log");
+
+        pb.redirectOutput(outFile);
+        pb.redirectError(errFile);
 
         return pb;
     }

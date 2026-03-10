@@ -17,21 +17,7 @@ import java.nio.file.StandardCopyOption;
 
 public class ResourceDownloader {
     private static final Logger logger = LoggerFactory.getLogger(ResourceDownloader.class);
-    private static final String ALLOWED_BASE_URL = "https://ebelge.gib.gov.tr/";
     private static final int TIMEOUT_SECONDS = 30;
-
-    /**
-     * Güvenlik kontrolü yapar. URL kesinlikle ALLOWED_BASE_URL ile başlamalıdır.
-     *
-     * @param fullUrl Kontrol edilecek tam URL
-     * @throws SecurityException URL güvenli değilse fırlatılır
-     */
-    public void validateUrl(String fullUrl) {
-        if (fullUrl == null || !fullUrl.startsWith(ALLOWED_BASE_URL)) {
-            logger.error("Güvenlik ihlali: Geçersiz URL - {}", fullUrl);
-            throw new SecurityException("URL kesinlikle " + ALLOWED_BASE_URL + " ile başlamalıdır.");
-        }
-    }
 
     /**
      * Belirtilen URL'deki dosyayı hedef yola indirir.
@@ -41,8 +27,6 @@ public class ResourceDownloader {
      * @throws IOException İndirme sırasında bir hata oluşursa fırlatılır
      */
     public void downloadFile(String url, Path destination) throws IOException {
-        validateUrl(url);
-
         // Basit cache kontrolü
         if (Files.exists(destination) && Files.size(destination) > 0) {
             logger.info("Dosya zaten mevcut ve boyutu > 0, indirme atlanıyor: {}", destination);

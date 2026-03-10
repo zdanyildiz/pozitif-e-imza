@@ -35,12 +35,33 @@ import javafx.scene.image.Image;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import javafx.stage.FileChooser;
 
 public class Main extends Application {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
+    private String jnlpInputPath;
 
     @Override
     public void start(Stage primaryStage) {
+        // Handle command line arguments for JNLP
+        List<String> rawArgs = getParameters().getRaw();
+        if (rawArgs != null && !rawArgs.isEmpty()) {
+            jnlpInputPath = rawArgs.get(0);
+        } else {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("JNLP Dosyası Seçin");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JNLP Dosyaları", "*.jnlp"));
+            File selectedFile = fileChooser.showOpenDialog(primaryStage);
+            if (selectedFile != null) {
+                jnlpInputPath = selectedFile.getAbsolutePath();
+            } else {
+                logger.warn("JNLP dosyası seçilmedi, uygulama kapatılıyor.");
+                Platform.exit();
+                return;
+            }
+        }
+        logger.info("JNLP Giriş Yolu: {}", jnlpInputPath);
+
         // Set Application Icon
         try {
             InputStream iconStream = getClass().getResourceAsStream("/images/appicon.png");
@@ -75,35 +96,35 @@ public class Main extends Application {
                 LoginResponse response = autoLoginTask.getValue();
                 if ("success".equals(response.getStatus())) {
                     logger.info("Otomatik giriş başarılı.");
-                    showMainLoader(primaryStage);
+                    showMainLoader(primaryStage, jnlpInputPath);
                 } else {
                     logger.warn("Otomatik giriş başarısız: {}. Login ekranına yönlendiriliyor.", response.getMessage());
                     credManager.deleteCredentials();
-                    showLogin(primaryStage);
+                    showLogin(primaryStage, jnlpInputPath);
                 }
             });
 
             autoLoginTask.setOnFailed(e -> {
                 logger.error("Otomatik giriş sırasında hata oluştu. Login ekranına geçiliyor.",
                         autoLoginTask.getException());
-                showLogin(primaryStage);
+                showLogin(primaryStage, jnlpInputPath);
             });
 
             new Thread(autoLoginTask).start();
         } else {
-            showLogin(primaryStage);
+            showLogin(primaryStage, jnlpInputPath);
         }
     }
 
-    private void showLogin(Stage stage) {
+    private void showLogin(Stage stage, String jnlpPath) {
         LoginView loginView = new LoginView(loginResponse -> {
             logger.info("User logged in: {}", loginResponse.getUserInfo().getEmail());
-            showMainLoader(stage);
+            showMainLoader(stage, jnlpPath);
         });
         loginView.show(stage);
     }
 
-    private void showMainLoader(Stage primaryStage) {
+    private void showMainLoader(Stage primaryStage, String jnlpPath) {
         // --- Logo Section ---
         ImageView logoView = new ImageView();
         try {
@@ -136,15 +157,14 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root, 450, 300));
         primaryStage.centerOnScreen();
 
-        startOrchestration(statusLabel, progressBar, vBox);
+        startOrchestration(statusLabel, progressBar, vBox, jnlpPath);
     }
 
-    private void startOrchestration(Label statusLabel, ProgressBar progressBar, VBox vBox) {
+    private void startOrchestration(Label statusLabel, ProgressBar progressBar, VBox vBox, String jnlpPath) {
         Task<Void> task = new Task<>() {
             @Override
             protected Void call() throws Exception {
                 // Step A (Init)
-                String jnlpUrl = "https://ebelge.gib.gov.tr/EFaturaWebSocket/EFaturaWebSocket.jnlp";
                 String cacheDir = System.getProperty("user.home") + File.separator + ".giblauncher" + File.separator
                         + "cache";
                 Path cachePath = Paths.get(cacheDir);
@@ -153,7 +173,12 @@ public class Main extends Application {
                 updateMessage("Yapılandırma okunuyor...");
                 updateProgress(0.1, 1.0);
                 JnlpParser parser = new JnlpParser();
-                JnlpDoc jnlpDoc = parser.parse(new URL(jnlpUrl));
+                JnlpDoc jnlpDoc;
+                if (jnlpPath.startsWith("http://") || jnlpPath.startsWith("https://")) {
+                    jnlpDoc = parser.parse(new URL(jnlpPath));
+                } else {
+                    jnlpDoc = parser.parse(new File(jnlpPath));
+                }
 
                 // Step C (Download)
                 updateMessage("Dosyalar indiriliyor...");
@@ -183,19 +208,23 @@ public class Main extends Application {
 
                 // Step D (Launch)
                 updateMessage("Uygulama başlatılıyor...");
-                updateProgress(1.0, 1.0);
                 ProcessManager processManager = new ProcessManager();
                 ProcessBuilder pb = processManager.buildProcess(jnlpDoc, cachePath);
                 logger.info("Dış uygulama başlatılıyor...");
                 Process process = pb.start();
-                Thread.sleep(3000);
 
-                if (!process.isAlive()) {
-                    int exitCode = process.exitValue();
-                    throw new Exception("Uygulama başlatılamadı (Exit Code: " + exitCode + ")");
+                // Sleep yerine process'in durumunu izle ve UI'yı güncelle
+                updateMessage("Uygulama çalışıyor...");
+                updateProgress(1.0, 1.0);
+
+                // Alt sürecin sonlanmasını bekle
+                int exitCode = process.waitFor();
+
+                if (exitCode != 0) {
+                    throw new Exception("Uygulama beklenmeyen bir hata koduyla sonlandı (Exit Code: " + exitCode + ")");
                 }
 
-                logger.info("Dış uygulama başarıyla başlatıldı, launcher kapatılıyor.");
+                logger.info("Dış uygulama başarıyla sonlandı, launcher kapatılıyor.");
                 Platform.runLater(Platform::exit);
 
                 return null;
