@@ -20,24 +20,28 @@ public class ProcessManager {
         List<String> commands = new ArrayList<>();
 
         // 1. Java Komutu Tespiti
+        // İşletim sistemine göre çalıştırılabilir dosya adını belirle
+        String os = System.getProperty("os.name").toLowerCase();
+        String javaExeName = os.contains("win") ? "java.exe" : "java";
+
         // jpackage ile paketlenmiş uygulamalarda java.home genellikle runtime klasörünü gösterir.
         String javaHome = System.getProperty("java.home");
-        String javaBin = javaHome + File.separator + "bin" + File.separator + "java.exe";
+        String javaBin = javaHome + File.separator + "bin" + File.separator + javaExeName;
         
         File javaFile = new File(javaBin);
         boolean useSystemJava = false;
         
         // Eğer java.home altında bulunamazsa, çalışma dizinine (user.dir) göre runtime/bin kontrolü yap
         if (!javaFile.exists()) {
-             logger.warn("Bundled java.exe bulunamadi: {}. Alternatif yol (runtime/bin) deneniyor...", javaBin);
+             logger.warn("Bundled {} bulunamadi: {}. Alternatif yol (runtime/bin) deneniyor...", javaExeName, javaBin);
              String userDir = System.getProperty("user.dir");
-             javaBin = userDir + File.separator + "runtime" + File.separator + "bin" + File.separator + "java.exe";
+             javaBin = userDir + File.separator + "runtime" + File.separator + "bin" + File.separator + javaExeName;
              javaFile = new File(javaBin);
         }
 
         // Eğer hala bulunamazsa, sistem PATH'indeki 'java' komutunu deneyelim
         if (!javaFile.exists()) {
-            logger.warn("Bundled java.exe yerel dizinlerde bulunamadi. Sistem PATH uzerindeki 'java' komutu denenecek.");
+            logger.warn("Bundled {} yerel dizinlerde bulunamadi. Sistem PATH uzerindeki 'java' komutu denenecek.", javaExeName);
             useSystemJava = true;
         }
 

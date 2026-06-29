@@ -77,11 +77,15 @@ public class LoginView {
 
         Label messageLabel = new Label();
         messageLabel.setWrapText(true);
-        messageLabel.setMaxWidth(250);
+        messageLabel.setMaxWidth(340);
+        messageLabel.setStyle("-fx-text-alignment: center;");
+        messageLabel.setVisible(false);
+        messageLabel.managedProperty().bind(messageLabel.visibleProperty());
 
         ProgressIndicator progressIndicator = new ProgressIndicator();
         progressIndicator.setVisible(false);
         progressIndicator.setMaxHeight(20);
+        progressIndicator.managedProperty().bind(progressIndicator.visibleProperty());
 
         loginButton.setOnAction(e -> {
             String email = emailField.getText();
@@ -90,6 +94,7 @@ public class LoginView {
             if (email.isEmpty() || password.isEmpty()) {
                 messageLabel.setTextFill(Color.RED);
                 messageLabel.setText("Lütfen tüm alanları doldurun.");
+                messageLabel.setVisible(true);
                 return;
             }
 
@@ -99,6 +104,7 @@ public class LoginView {
             passwordField.setDisable(true);
             progressIndicator.setVisible(true);
             messageLabel.setText("");
+            messageLabel.setVisible(false);
 
             Task<LoginResponse> loginTask = new Task<>() {
                 @Override
@@ -121,10 +127,12 @@ public class LoginView {
 
                     messageLabel.setTextFill(Color.GREEN);
                     messageLabel.setText("Giriş başarılı! Yönlendiriliyorsunuz...");
+                    messageLabel.setVisible(true);
                     onSuccess.accept(response);
                 } else {
                     messageLabel.setTextFill(Color.RED);
                     messageLabel.setText(response.getMessage() != null ? response.getMessage() : "Giriş başarısız.");
+                    messageLabel.setVisible(true);
                 }
             });
 
@@ -136,6 +144,7 @@ public class LoginView {
                 messageLabel.setTextFill(Color.RED);
                 Throwable ex = loginTask.getException();
                 messageLabel.setText("Hata: " + ex.getMessage());
+                messageLabel.setVisible(true);
             });
 
             new Thread(loginTask).start();
@@ -148,7 +157,7 @@ public class LoginView {
         root.setPadding(new Insets(30));
         root.setStyle("-fx-background-color: white;");
 
-        Scene scene = new Scene(root, 400, 450); // Yükseklik biraz artırıldı
+        Scene scene = new Scene(root, 400, 500); // Yükseklik hata mesajlarının sığması için artırıldı
         stage.setScene(scene);
         stage.setTitle("Giriş Yap - Pozitif E-İmza");
         stage.setResizable(false);

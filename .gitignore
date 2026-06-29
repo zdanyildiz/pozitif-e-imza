@@ -36,3 +36,9 @@ build_log.txt
 build_log_utf8.txt
 RunApp.bat
 BuildExe.bat
+
+# Tools & Scripts
+.tools/
+build.ps1
+package.ps1
+run.ps1
