@@ -34,30 +34,39 @@ import java.net.URL;
 import javafx.scene.image.Image;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 import javafx.stage.FileChooser;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class Main extends Application {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
+    private static final String DEFAULT_GIB_JNLP_URL = "https://ebelge.gib.gov.tr/EFaturaWebSocket/EFaturaWebSocket.jnlp";
     private String jnlpInputPath;
 
     @Override
     public void start(Stage primaryStage) {
         // Handle command line arguments for JNLP
         List<String> rawArgs = getParameters().getRaw();
-        if (rawArgs != null && !rawArgs.isEmpty()) {
-            jnlpInputPath = rawArgs.get(0);
+        if (rawArgs != null && !rawArgs.isEmpty() && !rawArgs.get(0).trim().isEmpty()) {
+            jnlpInputPath = rawArgs.get(0).trim();
         } else {
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("JNLP Dosyası Seçin");
-            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JNLP Dosyaları", "*.jnlp"));
-            File selectedFile = fileChooser.showOpenDialog(primaryStage);
-            if (selectedFile != null) {
-                jnlpInputPath = selectedFile.getAbsolutePath();
+            File autoDetected = findLatestJnlpFile();
+            if (autoDetected != null) {
+                jnlpInputPath = autoDetected.getAbsolutePath();
+                logger.info("Otomatik JNLP dosyası bulundu: {}", jnlpInputPath);
             } else {
-                logger.warn("JNLP dosyası seçilmedi, uygulama kapatılıyor.");
-                Platform.exit();
-                return;
+                jnlpInputPath = promptUserForJnlp(primaryStage);
+                if (jnlpInputPath == null || jnlpInputPath.isEmpty()) {
+                    logger.warn("JNLP dosyası seçilmedi, uygulama kapatılıyor.");
+                    Platform.exit();
+                    return;
+                }
             }
         }
         logger.info("JNLP Giriş Yolu: {}", jnlpInputPath);
@@ -264,6 +273,105 @@ public class Main extends Application {
         Thread thread = new Thread(task);
         thread.setDaemon(true);
         thread.start();
+    }
+
+    private File findLatestJnlpFile() {
+        List<File> searchDirs = new ArrayList<>();
+        String userHome = System.getProperty("user.home");
+        if (userHome != null && !userHome.isEmpty()) {
+            searchDirs.add(new File(userHome, "Downloads"));
+        }
+        String userDir = System.getProperty("user.dir");
+        if (userDir != null && !userDir.isEmpty()) {
+            searchDirs.add(new File(userDir));
+        }
+
+        List<File> efaturaFiles = new ArrayList<>();
+        List<File> anyJnlpFiles = new ArrayList<>();
+
+        for (File dir : searchDirs) {
+            if (dir.exists() && dir.isDirectory()) {
+                File[] files = dir.listFiles((d, name) -> name != null && name.toLowerCase(Locale.ROOT).endsWith(".jnlp"));
+                if (files != null) {
+                    for (File f : files) {
+                        if (f.isFile()) {
+                            String lowerName = f.getName().toLowerCase(Locale.ROOT);
+                            if (lowerName.startsWith("efaturawebsocket")) {
+                                efaturaFiles.add(f);
+                            } else {
+                                anyJnlpFiles.add(f);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if (!efaturaFiles.isEmpty()) {
+            efaturaFiles.sort(Comparator.comparingLong(File::lastModified).reversed());
+            return efaturaFiles.get(0);
+        }
+        if (!anyJnlpFiles.isEmpty()) {
+            anyJnlpFiles.sort(Comparator.comparingLong(File::lastModified).reversed());
+            return anyJnlpFiles.get(0);
+        }
+        return null;
+    }
+
+    private String promptUserForJnlp(Stage primaryStage) {
+        try {
+            UIManager.put("FileChooser.openDialogTitleText", "JNLP Dosyası Seçin");
+            UIManager.put("FileChooser.lookInLabelText", "Konum:");
+            UIManager.put("FileChooser.openButtonText", "Aç");
+            UIManager.put("FileChooser.cancelButtonText", "İptal");
+            UIManager.put("FileChooser.fileNameLabelText", "Dosya Adı:");
+            UIManager.put("FileChooser.filesOfTypeLabelText", "Dosya Türü:");
+            UIManager.put("FileChooser.openButtonToolTipText", "Seçili JNLP dosyasını aç");
+            UIManager.put("FileChooser.cancelButtonToolTipText", "İptal et");
+
+            Object[] options = { "Bilgisayardan JNLP Seç", "GİB Varsayılan JNLP İndir", "İptal" };
+            int choice = JOptionPane.showOptionDialog(
+                    null,
+                    "İndirilenler klasöründe otomatik JNLP dosyası bulunamadı.\nLütfen bilgisayarınızdan bir JNLP dosyası seçin veya GİB varsayılan JNLP bağlantısını kullanın.",
+                    "Pozitif E-İmza Başlatıcı - JNLP Seçimi",
+                    JOptionPane.YES_NO_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[0]);
+
+            if (choice == 1) {
+                return DEFAULT_GIB_JNLP_URL;
+            } else if (choice != 0) {
+                return null;
+            }
+
+            JFileChooser jFileChooser = new JFileChooser();
+            jFileChooser.setDialogTitle("JNLP Dosyası Seçin");
+            jFileChooser.setFileFilter(new FileNameExtensionFilter("JNLP Dosyaları (*.jnlp)", "jnlp"));
+            jFileChooser.setAcceptAllFileFilterUsed(false);
+            File downloadsDir = new File(System.getProperty("user.home", "."), "Downloads");
+            if (downloadsDir.exists() && downloadsDir.isDirectory()) {
+                jFileChooser.setCurrentDirectory(downloadsDir);
+            }
+
+            int result = jFileChooser.showOpenDialog(null);
+            if (result == JFileChooser.APPROVE_OPTION && jFileChooser.getSelectedFile() != null) {
+                return jFileChooser.getSelectedFile().getAbsolutePath();
+            }
+            return null;
+        } catch (Exception e) {
+            logger.warn("JFileChooser açılamadı, JavaFX FileChooser deneniyor: {}", e.getMessage());
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("JNLP Dosyası Seçin");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JNLP Dosyaları (*.jnlp)", "*.jnlp"));
+            File downloadsDir = new File(System.getProperty("user.home", "."), "Downloads");
+            if (downloadsDir.exists() && downloadsDir.isDirectory()) {
+                fileChooser.setInitialDirectory(downloadsDir);
+            }
+            File selectedFile = fileChooser.showOpenDialog(primaryStage);
+            return selectedFile != null ? selectedFile.getAbsolutePath() : null;
+        }
     }
 
     public static void main(String[] args) {
